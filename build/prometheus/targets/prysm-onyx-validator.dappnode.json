@@ -1,0 +1,11 @@
+[
+    {
+        "labels": {
+            "job": "prysm-onyx-validator",
+            "group": "prysm-onyx"
+        },
+        "targets": [
+            "prysm-onyx-validator.dappnode:8081"
+        ]
+    }
+]

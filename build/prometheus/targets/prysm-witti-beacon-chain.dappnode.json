@@ -1,0 +1,11 @@
+[
+    {
+        "labels": {
+            "job": "prysm-witti-beacon-chain",
+            "group": "prysm-witti"
+        },
+        "targets": [
+            "prysm-witti-beacon-chain.dappnode:8080"
+        ]
+    }
+]

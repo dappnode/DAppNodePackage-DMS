@@ -1,0 +1,11 @@
+[
+    {
+        "labels": {
+            "job": "prysm-onyx-beacon-chain",
+            "group": "prysm-onyx"
+        },
+        "targets": [
+            "prysm-onyx-beacon-chain.dappnode:8080"
+        ]
+    }
+]

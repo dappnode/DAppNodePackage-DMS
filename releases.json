@@ -1,0 +1,42 @@
+{
+  "0.1.0": {
+    "hash": "/ipfs/QmQ1aDycczzkzpkH2N1FNmz5XTRZZKsSxMfezGNpLqPqYR",
+    "type": "directory",
+    "uploadedTo": {
+      "dappnode": "Mon, 18 May 2020 13:13:07 GMT"
+    },
+    "link": "http://my.dappnode/#/sdk/publish/r=dms.dnp.dappnode.eth&v=0.1.0&h=%2Fipfs%2FQmZbwiapQS67LY2T7YoBCK5mWRV6ECgmMG9B1ZiFdWi4wc&d=0xF35960302a07022aBa880DFFaEC2Fdd64d5BF1c1"
+  },
+  "0.1.1": {
+    "hash": "/ipfs/QmUrK8tHsHJwPPxkY68xTT45XoqHZz3kNVJWPBYWzs4v4c",
+    "type": "directory",
+    "uploadedTo": {
+      "dappnode": "Fri, 22 May 2020 18:03:32 GMT"
+    },
+    "link": "http://my.dappnode/#/sdk/publish/r=dms.dnp.dappnode.eth&v=0.1.1&h=%2Fipfs%2FQma57c1DFuoDXtCVWpUkHxs8Tonn5DFZfXDjPjmbHHo8gU"
+  },
+  "0.1.2": {
+    "hash": "/ipfs/QmWHQDaaZLAvAUpTeXLNQpDgZ2LNTAGB2kcTnRroPiTiXV",
+    "type": "directory",
+    "uploadedTo": {
+      "dappnode": "Sat, 06 Jun 2020 19:12:25 GMT"
+    },
+    "link": "http://my.dappnode/#/sdk/publish/r=dms.dnp.dappnode.eth&v=0.1.2&h=%2Fipfs%2FQmVaYS9o6y9J4CjSRqJAewKt19QkWbUrFcmZkMf9tDA3QW"
+  },
+  "0.1.3": {
+    "hash": "/ipfs/QmcGqYQPtqBwRyokWAE2HhG3PACjYAxb6NfTfwobHwN7Vi",
+    "type": "directory",
+    "uploadedTo": {
+      "remote": "Sat, 06 Jun 2020 19:27:19 GMT"
+    },
+    "link": "http://my.dappnode/#/sdk/publish/r=dms.dnp.dappnode.eth&v=0.1.3&h=%2Fipfs%2FQmcGqYQPtqBwRyokWAE2HhG3PACjYAxb6NfTfwobHwN7Vi"
+  },
+  "0.1.4": {
+    "hash": "/ipfs/QmQCz3uFv9ARA3rrexMrspQkXHRN27m8YyPJN5PFJizswY",
+    "type": "directory",
+    "uploadedTo": {
+      "dappnode": "Sat, 16 May 2020 10:48:04 GMT"
+    },
+    "link": "http://my.dappnode/#/sdk/publish/r=dms.public.dappnode.eth&v=0.1.4&h=%2Fipfs%2FQmWHcLzP4ZULwRAoyN9fvyjxdNoBTAZyJy2nQXDH7s21oz"
+  }
+}

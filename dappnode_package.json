@@ -1,0 +1,19 @@
+{
+  "name": "dms.dnp.dappnode.eth",
+  "version": "0.1.3",
+  "description": "This package privately and locally collects and displays metrics related to your dappnode and its packages. Based on Grafana and Prometheus",
+  "shortDescription": "DAppNode Monitoring Service",
+  "type": "service",
+  "author": "edu",
+  "categories": [
+    "Monitoring"
+  ],
+  "links": {
+    "grafana": "http://dms.dappnode/dashboards",
+    "prometheus": "http://dms.dappnode:9090"
+  },
+  "license": "GLP-3.0",
+  "dependencies": {
+    "dappnode-exporter.dnp.dappnode.eth": "latest"
+  }
+}
