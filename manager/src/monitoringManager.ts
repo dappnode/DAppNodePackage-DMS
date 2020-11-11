@@ -1,9 +1,15 @@
 import { DappmanagerClient } from "./dappmanager";
-import { StoredPackageDb } from "./db";
+import { StoredPackageDb, StoredPackage } from "./db";
 import { GrafanaClient, validateDashboard } from "./grafana";
 import { PrometheusClient, validateTarget } from "./prometheus";
-import { Manifest, PublicPackage, StoredPackage } from "./types";
 import { flatten } from "./utils";
+import {
+  GrafanaDashboard,
+  Manifest,
+  PrometheusTarget,
+  PublicPackage,
+  DashboardUpdateData
+} from "./types";
 
 /**
  * Makes sure local monitoring files are in sync with DAPPMANAGER's installed packages
@@ -74,9 +80,11 @@ export class MonitoringManager {
 
   async updatePackageMonitoringFiles(pkg: PublicPackage): Promise<void> {
     const dnpName = pkg.name;
+    const version = pkg.version;
     const manifest = await this.dappmanagerClient.fetchPackageManifest(dnpName);
     const pkgData = parseManifest(pkg, manifest);
 
+    // Update prometheus targets always
     if (pkgData.prometheusTargets) {
       await this.prometheusClient.importTarget(
         dnpName,
@@ -84,27 +92,29 @@ export class MonitoringManager {
       );
     }
 
-    if (pkgData.grafanaDashboards) {
-      await this.grafanaClient.importDashboards(
-        dnpName,
-        pkgData.version,
-        pkgData.grafanaDashboards
+    // Update grafana if there has been no extra modification
+    const dbData = this.db.get(dnpName);
+    const currentDashboards = dbData?.dashboards || [];
+    const updatedDashboards: DashboardUpdateData[] = [];
+
+    for (const dashboard of pkgData.grafanaDashboards || []) {
+      const previousVersion =
+        currentDashboards.find(d => d.uid === dashboard.uid)?.version ?? null;
+      const updatedDashboard = await this.grafanaClient.importDashboard(
+        dashboard,
+        pkgData,
+        previousVersion
       );
+      updatedDashboards.push(updatedDashboard);
     }
 
-    this.db.set(pkgData);
+    this.db.set({ dnpName, version, dashboards: updatedDashboards });
   }
 
   async removePackageMonitoringFiles(pkg: StoredPackage): Promise<void> {
     const dnpName = pkg.dnpName;
-
-    if (pkg.prometheusTargets) {
-      await this.prometheusClient.removeTarget(dnpName);
-    }
-
-    if (pkg.grafanaDashboards) {
-      await this.grafanaClient.removeDashboards(pkg.grafanaDashboards);
-    }
+    await this.prometheusClient.removeTarget(dnpName);
+    await this.grafanaClient.removeDashboards(pkg.dashboards);
 
     this.db.del(dnpName);
   }
@@ -119,7 +129,12 @@ export class MonitoringManager {
 export function parseManifest(
   pkg: PublicPackage,
   manifest: Manifest
-): StoredPackage {
+): {
+  dnpName: string;
+  version: string;
+  grafanaDashboards?: GrafanaDashboard[];
+  prometheusTargets?: PrometheusTarget[];
+} {
   const dnpName = pkg.name;
   if (dnpName !== manifest.name)
     throw Error(`Manifest name mismatch ${dnpName} !== ${manifest.name}`);
@@ -136,7 +151,8 @@ export function parseManifest(
         validateTarget(dnpName, targets);
         return true;
       } catch (e) {
-        console.error(`Invalid dashboard ${dnpName} ${e.message}`);
+        console.error(`Invalid ${dnpName} target: ${e.message}`);
+        return false;
       }
     });
 
@@ -147,7 +163,8 @@ export function parseManifest(
         validateDashboard(dnpName, dashboard);
         return true;
       } catch (e) {
-        console.error(`Invalid dashboard ${dnpName} ${e.message}`);
+        console.error(`Invalid ${dnpName} dashboard: ${e.message}`);
+        return false;
       }
     });
 

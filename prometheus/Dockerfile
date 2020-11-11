@@ -1,6 +1,6 @@
 FROM alpine:edge
 
-RUN apk add -u prometheus bash supervisor
+RUN apk add -u prometheus
 
 ENTRYPOINT [ "prometheus", \
   "--config.file=/etc/prometheus/prometheus.yml", \

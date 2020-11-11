@@ -1,12 +1,18 @@
 import fs from "fs";
-import { StoredPackage } from "./types";
+import { DashboardUpdateData } from "./types";
+
+export interface StoredPackage {
+  dnpName: string;
+  version: string;
+  dashboards: DashboardUpdateData[];
+}
 
 type DbSchema = {
   [dnpName: string]: StoredPackage;
 };
 
 export class StoredPackageDb {
-  db: JsonDb<DbSchema>;
+  private db: JsonDb<DbSchema>;
 
   constructor(dbPath: string) {
     this.db = new JsonDb<DbSchema>(dbPath, {});

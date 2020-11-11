@@ -6,7 +6,7 @@ services:
     volumes:
       - "prometheus:/prometheus"
   prometheus:
-    buiĺd: ./prometheus
+    build: ./prometheus
     restart: always
     volumes:
       - "prometheus:/prometheus"

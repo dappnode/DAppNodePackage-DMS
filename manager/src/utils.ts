@@ -34,6 +34,6 @@ export function urlJoin(...args: string[]): string {
   return args.join("/").replace(/([^:]\/)\/+/g, "$1");
 }
 
-export function flatten<T>(arrays: T[] | T[][]): T[] {
-  return arrays.flat();
+export function flatten<T>(arrays: (T | T[])[]): T[] {
+  return arrays.flat() as T[];
 }

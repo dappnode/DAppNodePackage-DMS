@@ -5,11 +5,9 @@ export interface PublicPackage {
   ip: string; // "172.33.0.5";
 }
 
-export interface StoredPackage {
-  dnpName: string;
-  version: string;
-  grafanaDashboards?: GrafanaDashboard[];
-  prometheusTargets?: PrometheusTarget[];
+export interface DashboardUpdateData {
+  uid: string; // "cIBgcSjkk";
+  version: number; // 1;
 }
 
 export interface MonitoringFiles {
@@ -35,5 +33,5 @@ export interface Manifest {
   name: string;
   version: string;
   grafanaDashboards?: GrafanaDashboard[];
-  prometheusTargets?: PrometheusTarget[] | PrometheusTarget[][];
+  prometheusTargets?: (PrometheusTarget | PrometheusTarget[])[];
 }

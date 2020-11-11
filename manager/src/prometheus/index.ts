@@ -63,7 +63,7 @@ export function validateTarget(
         !target.labels.job.endsWith(shortDnpName))
     ) {
       throw Error(
-        `Prometheus target job ${target.labels.job} must end with ${shortDnpName}`
+        `Prometheus target job '${target.labels.job}' must end with '${shortDnpName}'`
       );
     }
   }
