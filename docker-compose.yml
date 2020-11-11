@@ -5,18 +5,21 @@ services:
     restart: always
     volumes:
       - "prometheus:/prometheus"
+    image: "grafana.dms.dnp.dappnode.eth:0.1.6"
   prometheus:
     build: ./prometheus
     restart: always
     volumes:
       - "prometheus:/prometheus"
       - "prometheus_file_sd:/prometheus_file_sd"
+    image: "prometheus.dms.dnp.dappnode.eth:0.1.6"
   manager:
     build: ./manager
     restart: always
     volumes:
       - "manager:/data"
       - "prometheus_file_sd:/prometheus_file_sd"
+    image: "manager.dms.dnp.dappnode.eth:0.1.6"
 volumes:
   grafana: {}
   prometheus: {}
