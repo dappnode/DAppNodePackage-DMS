@@ -1,9 +1,9 @@
 import { DappmanagerClient } from "../dappmanager";
-import { StoredPackageDb, StoredPackage } from "../db";
-import { GrafanaClient } from "../grafana";
+import { StoredPackageDb } from "../db";
+import { BadDashboardError, GrafanaClient } from "../grafana";
 import { PrometheusClient } from "../prometheus";
 import { PublicPackage, DashboardUpdateData } from "../types";
-import { parseManifest } from "./parseManifest";
+import { flatten } from "../utils";
 
 /**
  * Makes sure local monitoring files are in sync with DAPPMANAGER's installed packages
@@ -65,9 +65,10 @@ export class MonitoringManager {
     }
 
     for (const pkg of this.db.getAll()) {
-      if (!publicPackages.find(p => p.name === pkg.dnpName))
-        await this.removePackageMonitoringFiles(pkg).catch(e => {
-          console.log(`Error removing ${pkg.dnpName} files`, e);
+      const { dnpName } = pkg;
+      if (!publicPackages.find(p => p.name === dnpName))
+        await this.removePackageMonitoringFiles(dnpName).catch(e => {
+          console.log(`Error removing ${dnpName} files`, e);
         });
     }
   }
@@ -75,14 +76,14 @@ export class MonitoringManager {
   async updatePackageMonitoringFiles(pkg: PublicPackage): Promise<void> {
     const dnpName = pkg.name;
     const version = pkg.version;
-    const manifest = await this.dappmanagerClient.fetchPackageManifest(dnpName);
-    const pkgData = parseManifest(pkg, manifest);
+    const manifest = await this.dappmanagerClient.fetchPackageManifest(pkg);
+    // const pkgData = parseManifest(pkg, manifest);
 
     // Update prometheus targets always
-    if (pkgData.prometheusTargets) {
+    if (manifest.prometheusTargets) {
       await this.prometheusClient.importTarget(
         dnpName,
-        pkgData.prometheusTargets
+        flatten(manifest.prometheusTargets)
       );
     }
 
@@ -91,25 +92,33 @@ export class MonitoringManager {
     const currentDashboards = dbData?.dashboards || [];
     const updatedDashboards: DashboardUpdateData[] = [];
 
-    for (const dashboard of pkgData.grafanaDashboards || []) {
-      const previousVersion =
-        currentDashboards.find(d => d.uid === dashboard.uid)?.version ?? null;
-      const updatedDashboard = await this.grafanaClient.importDashboard(
-        dashboard,
-        pkgData,
-        previousVersion
-      );
-      updatedDashboards.push(updatedDashboard);
+    for (const dashboard of manifest.grafanaDashboards || []) {
+      try {
+        const previousVersion =
+          currentDashboards.find(d => d.uid === dashboard.uid)?.version ?? null;
+        const updatedDashboard = await this.grafanaClient.importDashboard(
+          dashboard,
+          { dnpName, version },
+          previousVersion
+        );
+        updatedDashboards.push(updatedDashboard);
+      } catch (e) {
+        if (e instanceof BadDashboardError) {
+          console.error(
+            `Ignoring bad dashboard ${dnpName} ${dashboard.uid}: ${e.message}`
+          );
+        } else {
+          throw e;
+        }
+      }
     }
 
     this.db.set({ dnpName, version, dashboards: updatedDashboards });
   }
 
-  async removePackageMonitoringFiles(pkg: StoredPackage): Promise<void> {
-    const dnpName = pkg.dnpName;
+  async removePackageMonitoringFiles(dnpName: string): Promise<void> {
     await this.prometheusClient.removeTarget(dnpName);
-    await this.grafanaClient.removeDashboards(pkg.dashboards);
-
+    await this.grafanaClient.removeDashboards(dnpName);
     this.db.del(dnpName);
   }
 }

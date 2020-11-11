@@ -13,9 +13,24 @@ export class DappmanagerClient {
     return await got(urlJoin(this.baseUrl, "/public-packages")).json();
   }
 
-  async fetchPackageManifest(dnpName: string): Promise<Manifest> {
-    return await got(
-      urlJoin(this.baseUrl, `/package-manifest/${dnpName}`)
-    ).json();
+  async fetchPackageManifest({
+    name,
+    version
+  }: {
+    name: string;
+    version: string;
+  }): Promise<Manifest> {
+    const manifest = await got(
+      urlJoin(this.baseUrl, `/package-manifest/${name}`)
+    ).json<Manifest>();
+
+    if (name !== manifest.name)
+      throw Error(`Manifest name mismatch ${name} !== ${manifest.name}`);
+    if (version !== manifest.version)
+      throw Error(
+        `Manifest version mismatch ${name} ${version} !== ${manifest.version}`
+      );
+
+    return manifest;
   }
 }
