@@ -10,13 +10,15 @@ services:
     restart: always
     volumes:
       - "prometheus:/prometheus"
-      - "provisioning:/provisioning/"
+      - "prometheus_file_sd:/prometheus_file_sd"
   manager:
     build: ./manager
     restart: always
     volumes:
-      - "provisioning:/provisioning/"
+      - "manager:/data"
+      - "prometheus_file_sd:/prometheus_file_sd"
 volumes:
   grafana: {}
   prometheus: {}
-  provisioning: {}
+  manager: {}
+  prometheus_file_sd: {}
