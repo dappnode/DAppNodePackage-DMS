@@ -9,6 +9,8 @@ import {
   DAPPMANAGER_API_URL,
   JSON_DB_PATH
 } from "./params";
+// "source-map-support" MUST be imported for stack traces to work properly after Typescript transpile
+import "source-map-support/register";
 
 /**
  * Formating rules:

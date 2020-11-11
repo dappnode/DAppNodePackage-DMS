@@ -5,11 +5,14 @@
   "license": "MIT",
   "scripts": {
     "test": "mocha \"./{,!(node_modules)/**}/*.test.ts\" ",
-    "build": "tsc"
+    "build": "webpack",
+    "check:types": "tsc --noEmit"
   },
   "dependencies": {
     "@types/node": "^14.14.7",
     "got": "^11.8.0",
+    "source-map-support": "^0.5.19",
+    "ts-loader": "^8.0.11",
     "typescript": "^4.0.5",
     "webpack": "^5.4.0",
     "webpack-cli": "^4.2.0"
