@@ -1,11 +1,11 @@
 import { expect } from "chai";
-import { parseManifest } from "../src/monitoringManager";
+import { parseManifest } from "../../src/monitoring/parseManifest";
 import {
   GrafanaDashboard,
   Manifest,
   PrometheusTarget,
   PublicPackage
-} from "../src/types";
+} from "../../src/types";
 
 describe("parseManifest", () => {
   it("Should filter bad dashboards and targets", () => {

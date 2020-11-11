@@ -1,7 +1,7 @@
 import { GrafanaClient } from "./grafana";
 import { PrometheusClient } from "./prometheus";
 import { DappmanagerClient } from "./dappmanager";
-import { MonitoringManager } from "./monitoringManager";
+import { MonitoringManager } from "./monitoring";
 import { StoredPackageDb } from "./db";
 import {
   GRAFANA_API_URL,

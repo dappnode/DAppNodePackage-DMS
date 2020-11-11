@@ -4,7 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "test": "mocha \"./{,!(node_modules)/**}/*.test.ts\" "
+    "test": "mocha \"./{,!(node_modules)/**}/*.test.ts\" ",
+    "build": "tsc"
   },
   "dependencies": {
     "@types/node": "^14.14.7",

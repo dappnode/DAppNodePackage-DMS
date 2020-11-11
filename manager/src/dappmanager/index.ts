@@ -1,6 +1,6 @@
 import got from "got";
-import { Manifest, PublicPackage } from "./types";
-import { urlJoin } from "./utils";
+import { Manifest, PublicPackage } from "../types";
+import { urlJoin } from "../utils";
 
 export class DappmanagerClient {
   baseUrl: string;
