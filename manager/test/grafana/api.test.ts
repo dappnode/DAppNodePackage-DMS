@@ -18,7 +18,10 @@ describe("GrafanaClient", function () {
   const shortName = "prysm-" + String(Math.random()).slice(2, 7);
   const dnpName = shortName + ".dnp.dappnode.eth";
 
-  before("Start grafana", async () => {
+  before("Start grafana", async function () {
+    // Allow ample time to pull image
+    this.timeout(5 * 60 * 1000);
+
     await cleanContainer(GRAFANA_CONATINER);
 
     await promisify(exec)(
