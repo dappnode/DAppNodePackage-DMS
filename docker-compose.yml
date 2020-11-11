@@ -1,14 +1,24 @@
-version: '3.4'
+version: "3.4"
 services:
-  dms.dnp.dappnode.eth:
-    build: ./build
-    image: 'dms.dnp.dappnode.eth:0.1.3'
+  grafana:
+    build: ./grafana
     restart: always
     volumes:
-      - 'grafana:/var/lib/grafana'
-      - 'prometheus:/prometheus'
-      - 'provisioning:/provisioning/'
+      - "prometheus:/prometheus"
+  prometheus:
+    build: ./prometheus
+    restart: always
+    volumes:
+      - "prometheus:/prometheus"
+      - "prometheus_file_sd:/prometheus_file_sd"
+  manager:
+    build: ./manager
+    restart: always
+    volumes:
+      - "manager:/data"
+      - "prometheus_file_sd:/prometheus_file_sd"
 volumes:
   grafana: {}
   prometheus: {}
-  provisioning: {}
+  manager: {}
+  prometheus_file_sd: {}
