@@ -37,6 +37,10 @@ export class StoredPackageDb {
   getAll(): StoredPackage[] {
     return Object.values(this.db.read());
   }
+
+  clear(): void {
+    this.db.clear();
+  }
 }
 
 class JsonDb<T> {
@@ -59,5 +63,9 @@ class JsonDb<T> {
 
   write(data: T): void {
     fs.writeFileSync(this.filepath, JSON.stringify(data, null, 2));
+  }
+
+  clear(): void {
+    fs.unlinkSync(this.filepath);
   }
 }
