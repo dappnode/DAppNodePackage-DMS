@@ -9,7 +9,8 @@ import {
   PROMETHEUS_TARGETS_DIR,
   DAPPMANAGER_API_URL,
   JSON_DB_PATH,
-  MANAGER_API_PORT
+  MANAGER_API_PORT,
+  MONITOR_INTERVAL_MS
 } from "./params";
 // "source-map-support" MUST be imported for stack traces to work properly after Typescript transpile
 import "source-map-support/register";
@@ -37,7 +38,7 @@ const prometheusClient = new PrometheusClient(PROMETHEUS_TARGETS_DIR);
 const dappmanagerClient = new DappmanagerClient(DAPPMANAGER_API_URL);
 const db = new StoredPackageDb(JSON_DB_PATH);
 const monitoringManager = new MonitoringManager({
-  intervalMs: 30 * 6000,
+  intervalMs: MONITOR_INTERVAL_MS,
   grafanaClient,
   prometheusClient,
   dappmanagerClient,
@@ -45,8 +46,20 @@ const monitoringManager = new MonitoringManager({
 });
 const httpApi = new HttpApi({ db, port: MANAGER_API_PORT });
 
-process.on("SIGINT", () => {
+console.log("Started manager", {
+  GRAFANA_API_URL,
+  PROMETHEUS_TARGETS_DIR,
+  DAPPMANAGER_API_URL,
+  JSON_DB_PATH,
+  MANAGER_API_PORT,
+  MONITOR_INTERVAL_MS
+});
+
+function gracefulStop() {
   monitoringManager.stop();
   httpApi.stop();
   process.exit(0);
-});
+}
+
+process.on("SIGTERM", gracefulStop);
+process.on("SIGINT", gracefulStop);
