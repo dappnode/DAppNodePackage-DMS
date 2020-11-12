@@ -3,11 +3,13 @@ import { PrometheusClient } from "./prometheus";
 import { DappmanagerClient } from "./dappmanager";
 import { MonitoringManager } from "./monitoring";
 import { StoredPackageDb } from "./db";
+import { HttpApi } from "./httpApi";
 import {
   GRAFANA_API_URL,
   PROMETHEUS_TARGETS_DIR,
   DAPPMANAGER_API_URL,
-  JSON_DB_PATH
+  JSON_DB_PATH,
+  MANAGER_API_PORT
 } from "./params";
 // "source-map-support" MUST be imported for stack traces to work properly after Typescript transpile
 import "source-map-support/register";
@@ -41,8 +43,10 @@ const monitoringManager = new MonitoringManager({
   dappmanagerClient,
   db
 });
+const httpApi = new HttpApi({ db, port: MANAGER_API_PORT });
 
 process.on("SIGINT", () => {
   monitoringManager.stop();
+  httpApi.stop();
   process.exit(0);
 });

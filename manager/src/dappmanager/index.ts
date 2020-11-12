@@ -2,6 +2,11 @@ import got from "got";
 import { Manifest, PublicPackage } from "../types";
 import { urlJoin } from "../utils";
 
+export const ManifestMismatchErrorCode = "MANIFEST_MISMATCH";
+export class ManifestMismatchError extends Error {
+  code = ManifestMismatchErrorCode;
+}
+
 export class DappmanagerClient {
   baseUrl: string;
 
@@ -25,9 +30,11 @@ export class DappmanagerClient {
     ).json<Manifest>();
 
     if (name !== manifest.name)
-      throw Error(`Manifest name mismatch ${name} !== ${manifest.name}`);
+      throw new ManifestMismatchError(
+        `Manifest name mismatch ${name} !== ${manifest.name}`
+      );
     if (version !== manifest.version)
-      throw Error(
+      throw new ManifestMismatchError(
         `Manifest version mismatch ${name} ${version} !== ${manifest.version}`
       );
 
