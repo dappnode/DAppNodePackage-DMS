@@ -1,21 +1,7 @@
-global:
-  scrape_interval: 1m
-  evaluation_interval: 1m
-  # How long until a scrape request times out.
-  scrape_timeout: 50s
-
-  # Attach these labels to any time series or alerts when communicating with
-  # external systems (federation, remote storage, Alertmanager).
-  external_labels:
-    monitor: "docker-host-alpha"
-
-# Load and evaluate rules in this file every 'evaluation_interval' seconds.
-rule_files:
-  - "alert.rules"
-
-# A scrape configuration containing exactly one endpoint to scrape.
 scrape_configs:
+  # Files copied programatically by the manager container
   - job_name: "manager_sd"
+    scrape_interval: 10s
     file_sd_configs:
       - files:
           - /prometheus_file_sd/*.yml
