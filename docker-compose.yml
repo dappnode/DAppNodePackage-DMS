@@ -4,21 +4,21 @@ services:
     build: ./grafana
     restart: always
     volumes:
-      - "prometheus:/prometheus"
+      - "grafana_data:/var/lib/grafana"
   prometheus:
     build: ./prometheus
     restart: always
     volumes:
-      - "prometheus:/prometheus"
+      - "prometheus_data:/prometheus"
       - "prometheus_file_sd:/prometheus_file_sd"
   manager:
     build: ./manager
     restart: always
     volumes:
-      - "manager:/data"
+      - "manager_data:/data"
       - "prometheus_file_sd:/prometheus_file_sd"
 volumes:
-  grafana: {}
-  prometheus: {}
-  manager: {}
+  grafana_data: {}
+  prometheus_data: {}
+  manager_data: {}
   prometheus_file_sd: {}
