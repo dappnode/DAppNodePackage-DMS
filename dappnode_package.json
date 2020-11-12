@@ -15,8 +15,9 @@
   ],
   "categories": ["Monitoring"],
   "links": {
-    "grafana": "http://dms.dappnode/dashboards",
-    "prometheus": "http://dms.dappnode:9090",
+    "ui": "http://dms.dappnode/dashboards",
+    "grafana": "http://dms.dappnode",
+    "manager-status": "http://manager.dms.dappnode",
     "homepage": "https://github.com/dappnode/DMS#readme"
   },
   "repository": {
