@@ -42,11 +42,16 @@ export class MonitoringManager {
     this.dappmanagerClient = dappmanagerClient;
     this.db = db;
 
+    this.run();
     this.interval = setInterval(() => {
-      this.syncMonitoringFiles().catch(e => {
-        console.log(`Error on syncMonitoringFiles`, e);
-      });
+      this.run();
     }, intervalMs);
+  }
+
+  async run() {
+    await this.syncMonitoringFiles().catch(e => {
+      console.log(`Error on syncMonitoringFiles`, e);
+    });
   }
 
   async stop() {
