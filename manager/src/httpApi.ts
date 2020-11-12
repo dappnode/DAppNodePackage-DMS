@@ -21,8 +21,8 @@ export class HttpApi {
         res.writeHead(200);
         res.end("Cleared DB");
       } else {
-        res.writeHead(200);
         res.setHeader("Content-Type", "application/json");
+        res.writeHead(200);
         res.end(JSON.stringify(this.db.getAll(), null, 2));
       }
     } catch (e) {
