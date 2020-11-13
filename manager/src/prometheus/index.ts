@@ -1,6 +1,5 @@
 import fs from "fs";
 import path from "path";
-import { getShortDnpName } from "../params";
 import { PrometheusTarget } from "../types";
 
 export class PrometheusClient {
@@ -43,28 +42,5 @@ export class PrometheusClient {
 
   private getTargetsFilepath(dnpName: string): string {
     return path.join(this.TARGETS_DIR, dnpName + this.TARGET_EXT);
-  }
-}
-
-/**
- * Packages can have one or more targets file. However, they should be flatten in advance
- * - The job label is OPTIONAL. It must end with the package's short domain
- */
-export function validateTarget(
-  dnpName: string,
-  target: PrometheusTarget
-): void {
-  const shortDnpName = getShortDnpName({ dnpName });
-
-  if (target.labels && typeof target.labels === "object") {
-    if (
-      target.labels.job &&
-      (typeof target.labels.job !== "string" ||
-        !target.labels.job.endsWith(shortDnpName))
-    ) {
-      throw Error(
-        `Prometheus target job '${target.labels.job}' must end with '${shortDnpName}'`
-      );
-    }
   }
 }

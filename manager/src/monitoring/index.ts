@@ -97,26 +97,31 @@ export class MonitoringManager {
     const currentDashboards = dbData?.dashboards || [];
     const updatedDashboards: DashboardUpdateData[] = [];
 
-    for (const dashboard of manifest.grafanaDashboards || []) {
-      try {
-        const previousVersion =
-          currentDashboards.find(d => d.uid === dashboard.uid)?.version ?? null;
-        const updatedDashboard = await this.grafanaClient.importDashboard(
-          dashboard,
-          { dnpName, version },
-          previousVersion
-        );
-        updatedDashboards.push(updatedDashboard);
-      } catch (e) {
-        if (e instanceof BadDashboardError) {
-          console.error(
-            `Ignoring bad dashboard ${dnpName} ${dashboard.uid}: ${e.message}`
-          );
-        } else {
-          throw e;
+    await Promise.all(
+      (manifest.grafanaDashboards || []).map(async (dashboard, index) => {
+        try {
+          const prevVersion =
+            currentDashboards.find(d => d.uid === dashboard.uid)?.version ??
+            null;
+          const updatedDashboard = await this.grafanaClient.importDashboard({
+            dashboard,
+            dnpName,
+            dnpVersion: version,
+            index,
+            prevVersion
+          });
+          updatedDashboards.push(updatedDashboard);
+        } catch (e) {
+          if (e instanceof BadDashboardError) {
+            console.error(
+              `Ignoring bad dashboard ${dnpName} ${dashboard.uid}: ${e.message}`
+            );
+          } else {
+            throw e;
+          }
         }
-      }
-    }
+      })
+    );
 
     this.db.set({ dnpName, version, dashboards: updatedDashboards });
   }

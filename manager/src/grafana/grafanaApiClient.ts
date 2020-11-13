@@ -148,7 +148,7 @@ interface CreateUpdateBody {
     /**
      * id = null to create a new dashboard
      */
-    id?: string | null;
+    id?: number | null;
     /**
      * Optional unique identifier when creating a dashboard.
      * uid = null will generate a new uid.
