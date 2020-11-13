@@ -3,7 +3,6 @@ import { exec } from "child_process";
 import { promisify } from "util";
 import { GrafanaClient } from "../../src/grafana";
 import { GrafanaApiClient } from "../../src/grafana/grafanaApiClient";
-import { GrafanaDashboard } from "../../src/types";
 
 describe("GrafanaClient", function () {
   this.timeout(10 * 1000);
@@ -48,7 +47,7 @@ describe("GrafanaClient", function () {
     title: `${shortName} Dashboard`,
     schemaVersion: 16,
     description: "nonce 1"
-  } as GrafanaDashboard;
+  };
 
   it("Should import a new dashboard", async () => {
     const version = "0.1.0";

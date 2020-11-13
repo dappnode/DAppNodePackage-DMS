@@ -17,6 +17,9 @@ export class GrafanaClient {
     prevVersion: number | null
   ): Promise<DashboardUpdateData> {
     dashboard.uid = getDashboardUid(pkg.dnpName, dashboard.uid);
+    // Clean extra data from the developer
+    delete dashboard.id;
+    delete dashboard.version;
 
     // Create folder if it doesn't exist yet
     // NOTE: folders are dashboards, they MUST have a different UID and title
@@ -46,6 +49,8 @@ export class GrafanaClient {
           version: currentVersion
         };
       }
+
+      dashboard.id = currentDashboard.dashboard.id;
     }
 
     const data = await this.grafanaApiClient
@@ -85,7 +90,7 @@ export function getFolderUidFromDnpName(dnpName: string): string {
  * Packages can have one or more dashboard files
  * - The UID property is MANDATORY. It MUST end with the package short domain
  */
-export function getDashboardUid(dnpName: string, uid: string): string {
+export function getDashboardUid(dnpName: string, uid: string | null): string {
   const shortDnpName = getShortDnpName({ dnpName });
 
   if (!uid) throw new BadDashboardError("dashboard.uid must be defined");

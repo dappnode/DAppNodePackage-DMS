@@ -18,7 +18,9 @@ export interface MonitoringFiles {
 }
 
 export interface GrafanaDashboard {
-  uid: string;
+  uid: string | null;
+  id?: number | null;
+  version?: number
 }
 
 export interface PrometheusTarget {
