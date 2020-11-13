@@ -50,35 +50,37 @@ describe("GrafanaClient", function () {
   };
 
   it("Should import a new dashboard", async () => {
-    const version = "0.1.0";
-    const res = await grafanaClient.importDashboard(
+    const res = await grafanaClient.importDashboard({
       dashboard,
-      { dnpName, version },
-      null
-    );
+      dnpName,
+      dnpVersion: "0.1.0",
+      index: 0,
+      prevVersion: null
+    });
     expect(res).to.deep.equal({ uid: dashboard.uid, version: 1 });
   });
 
   it("Should update the dashboard", async () => {
-    const version = "0.2.0";
     const dashboardV2 = { ...dashboard, description: "nonce 2" };
-    const res = await grafanaClient.importDashboard(
-      dashboardV2,
-      { dnpName, version },
-      null
-    );
+    const res = await grafanaClient.importDashboard({
+      dashboard: dashboardV2,
+      dnpName,
+      dnpVersion: "0.2.0",
+      index: 0,
+      prevVersion: null
+    });
     expect(res).to.deep.equal({ uid: dashboard.uid, version: 2 });
   });
 
   it("Should skip updating the dashboard if it is edited by the user", async () => {
-    const version = "0.2.0";
-    const prevVersion = 1;
     const dashboardV2 = { ...dashboard, description: "nonce 3" };
-    const res = await grafanaClient.importDashboard(
-      dashboardV2,
-      { dnpName, version },
-      prevVersion
-    );
+    const res = await grafanaClient.importDashboard({
+      dashboard: dashboardV2,
+      dnpName,
+      dnpVersion: "0.2.0",
+      index: 0,
+      prevVersion: 1
+    });
     expect(res).to.deep.equal({ uid: dashboard.uid, version: 2 });
   });
 

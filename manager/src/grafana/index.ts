@@ -11,12 +11,20 @@ export class GrafanaClient {
     this.grafanaApiClient = new GrafanaApiClient({ baseUrl: API_URL });
   }
 
-  async importDashboard(
-    dashboard: GrafanaDashboard,
-    pkg: { dnpName: string; version: string },
-    prevVersion: number | null
-  ): Promise<DashboardUpdateData> {
-    dashboard.uid = getDashboardUid(pkg.dnpName, dashboard.uid);
+  async importDashboard({
+    dashboard,
+    dnpName,
+    dnpVersion,
+    index,
+    prevVersion
+  }: {
+    dashboard: GrafanaDashboard;
+    dnpName: string;
+    dnpVersion: string;
+    index: number;
+    prevVersion: number | null;
+  }): Promise<DashboardUpdateData> {
+    dashboard.uid = getDashboardUid({ dnpName, uid: dashboard.uid, index });
     // Clean extra data from the developer
     delete dashboard.id;
     delete dashboard.version;
@@ -24,7 +32,7 @@ export class GrafanaClient {
     // Create folder if it doesn't exist yet
     // NOTE: folders are dashboards, they MUST have a different UID and title
     // than all its child dashboards. they don't fix the uniqueness isue
-    const folderUid = getFolderUidFromDnpName(pkg.dnpName);
+    const folderUid = getFolderUidFromDnpName(dnpName);
     const folder =
       (await this.grafanaApiClient.getFolder(folderUid)) ||
       (await this.grafanaApiClient.createFolder({
@@ -57,7 +65,7 @@ export class GrafanaClient {
       .createUpdateDashboard({
         dashboard,
         overwrite: true,
-        message: `Automatic update to version ${pkg.version}`,
+        message: `Automatic update to version ${dnpVersion}`,
         folderId: folder.id
       })
       .catch(e => {
@@ -90,12 +98,20 @@ export function getFolderUidFromDnpName(dnpName: string): string {
  * Packages can have one or more dashboard files
  * - The UID property is MANDATORY. It MUST end with the package short domain
  */
-export function getDashboardUid(dnpName: string, uid: string | null): string {
+export function getDashboardUid({
+  dnpName,
+  uid,
+  index
+}: {
+  dnpName: string;
+  uid: string | null;
+  index: number;
+}): string {
   const shortDnpName = getShortDnpName({ dnpName });
 
-  if (!uid) throw new BadDashboardError("dashboard.uid must be defined");
-  if (typeof uid !== "string")
-    throw new BadDashboardError("dashboard.uid must be a string");
+  if (!uid || typeof uid !== "string") {
+    uid = `${index}-${shortDnpName}`;
+  }
   if (!uid.endsWith(shortDnpName)) {
     uid = `${uid}-${shortDnpName}`.slice(-40);
   }
