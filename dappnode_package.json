@@ -6,9 +6,6 @@
   "type": "service",
   "architectures": ["linux/amd64", "linux/arm64"],
   "mainService": "grafana",
-  "dependencies": {
-    "dappnode-exporter.dnp.dappnode.eth": "latest"
-  },
   "author": "DAppNode Association <admin@dappnode.io> (https://github.com/dappnode)",
   "contributors": [
     "DAppLion <dapplion@giveth.io> (https://github.com/dapplion)"
