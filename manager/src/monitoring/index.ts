@@ -63,18 +63,23 @@ export class MonitoringManager {
 
     for (const pkg of publicPackages) {
       const currentPkg = this.db.get(pkg.name);
-      if (!currentPkg || currentPkg.version !== pkg.version)
-        await this.updatePackageMonitoringFiles(pkg).catch(e => {
-          console.log(`Error updating ${pkg.name} files`, e);
-        });
+      if (!currentPkg || currentPkg.version !== pkg.version) {
+        await this.updatePackageMonitoringFiles(pkg)
+          .then(() => console.log(`Updated ${pkg.name} to ${pkg.version}`))
+          .catch(e => {
+            console.log(`Error updating ${pkg.name} ${pkg.version} files`, e);
+          });
+      }
     }
 
     for (const pkg of this.db.getAll()) {
       const { dnpName } = pkg;
       if (!publicPackages.find(p => p.name === dnpName))
-        await this.removePackageMonitoringFiles(dnpName).catch(e => {
-          console.log(`Error removing ${dnpName} files`, e);
-        });
+        await this.removePackageMonitoringFiles(dnpName)
+          .then(() => console.log(`Removed ${dnpName}`))
+          .catch(e => {
+            console.log(`Error removing ${dnpName} files`, e);
+          });
     }
   }
 
