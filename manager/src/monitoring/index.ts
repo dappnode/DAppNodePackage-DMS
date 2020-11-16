@@ -67,7 +67,7 @@ export class MonitoringManager {
         await this.updatePackageMonitoringFiles(pkg)
           .then(() => console.log(`Updated ${pkg.name} to ${pkg.version}`))
           .catch(e => {
-            console.log(`Error updating ${pkg.name} ${pkg.version} files`, e);
+            console.error(`Error updating ${pkg.name} ${pkg.version}`, e.stack);
           });
       }
     }
@@ -78,7 +78,7 @@ export class MonitoringManager {
         await this.removePackageMonitoringFiles(dnpName)
           .then(() => console.log(`Removed ${dnpName}`))
           .catch(e => {
-            console.log(`Error removing ${dnpName} files`, e);
+            console.error(`Error removing ${dnpName}`, e.stack);
           });
     }
   }
