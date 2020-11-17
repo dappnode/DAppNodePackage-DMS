@@ -1,6 +1,6 @@
-FROM alpine:edge
+FROM grafana/grafana:7.3.3
 
-RUN apk add grafana --update-cache --repository http://dl-3.alpinelinux.org/alpine/edge/testing/
+USER root
 
 COPY ./grafana.ini /etc/grafana/grafana.ini
 COPY ./datasource.yml /etc/grafana/provisioning/datasources/
