@@ -1,4 +1,7 @@
 import { getShortDnpName } from "../params";
+import { GrafanaDashboard } from "../types";
+
+const folderSuffix = "dashboards";
 
 /**
  * Packages can have one or more dashboard files
@@ -6,14 +9,16 @@ import { getShortDnpName } from "../params";
  */
 export function getDashboardUid({
   dnpName,
-  uid,
+  dashboard,
   index
 }: {
   dnpName: string;
-  uid: string | null;
+  dashboard: GrafanaDashboard;
   index: number;
-}): string {
+}): { uid: string; title: string } {
   const shortDnpName = getShortDnpName({ dnpName });
+  let uid = dashboard.uid;
+  let title = dashboard.title;
 
   if (!uid || typeof uid !== "string") {
     uid = `${shortDnpName}-${index}`.slice(-40);
@@ -25,17 +30,34 @@ export function getDashboardUid({
   uid = sanitizeGranafaUid(uid);
 
   // Make sure the UID is not the same as the folder UID
-
-  if (uid === getFolderUidFromDnpName(dnpName)) {
-    uid = `${uid}-${index}`.slice(-40);
+  const folderData = getFolderUidFromDnpName(dnpName);
+  if (uid.toLowerCase() === folderData.uid.toLowerCase()) {
+    uid = `${uid.replace(folderSuffix, "")}-${index}`.slice(-40);
   }
 
-  return uid;
+  if (!title || typeof title !== "string") {
+    title = `${shortDnpName} ${index}`;
+  }
+
+  // Make sure the title is not the same as the folder title
+  if (title.toLowerCase() === folderData.title.toLowerCase()) {
+    title = `${title.replace(folderSuffix, "")} ${index}`;
+  }
+
+  return {
+    uid,
+    title
+  };
 }
 
-export function getFolderUidFromDnpName(dnpName: string): string {
+export function getFolderUidFromDnpName(
+  dnpName: string
+): { uid: string; title: string } {
   const shortDnpName = getShortDnpName({ dnpName });
-  return sanitizeGranafaUid(shortDnpName);
+  return {
+    uid: sanitizeGranafaUid(`${shortDnpName}-${folderSuffix}`),
+    title: `${shortDnpName} ${folderSuffix}`
+  };
 }
 
 /**

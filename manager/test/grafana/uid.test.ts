@@ -10,50 +10,54 @@ describe("grafana / uid", () => {
     }[] = [
       {
         id: "No UID",
-        args: { dnpName: "prysm.dnp.dappnode.eth", uid: null, index: 0 },
-        result: "prysm-0"
+        args: {
+          dnpName: "prysm.dnp.dappnode.eth",
+          dashboard: { uid: null },
+          index: 0
+        },
+        result: { uid: "prysm-0", title: "prysm 0" }
       },
       {
         id: "Bad UID",
         args: {
           dnpName: "prysm.dnp.dappnode.eth",
-          uid: ({} as any) as null,
+          dashboard: { uid: ({} as any) as null },
           index: 0
         },
-        result: "prysm-0"
+        result: { uid: "prysm-0", title: "prysm 0" }
       },
       {
         id: "Same UID as folder",
         args: {
           dnpName: "prysm.dnp.dappnode.eth",
-          uid: "prysm",
+          dashboard: { uid: "prysm" },
           index: 0
         },
-        result: "prysm-0"
+        result: { uid: "prysm", title: "prysm 0" }
       },
       {
         id: "Too long UID",
         args: {
           dnpName: "prysm.dnp.dappnode.eth",
-          uid: "p".repeat(80),
+          dashboard: { uid: "p".repeat(80) },
           index: 0
         },
-        result: "p".repeat(40)
+        result: { uid: "p".repeat(40), title: "prysm 0" }
       },
       {
         id: "UID with special characters",
         args: {
           dnpName: "prysm.dnp.dappnode.eth",
-          uid: "Prysm dashboard //--",
+          dashboard: { uid: "Prysm dashboard //--" },
           index: 0
         },
-        result: "prysm-Prysm-dashboard-"
+        result: { uid: "prysm-Prysm-dashboard-", title: "prysm 0" }
       }
     ];
 
     for (const { id, args, result } of testCases) {
       it(id, () => {
-        expect(getDashboardUid(args)).to.equal(result);
+        expect(getDashboardUid(args)).to.deep.equal(result);
       });
     }
   });

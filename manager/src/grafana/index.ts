@@ -24,7 +24,10 @@ export class GrafanaClient {
     index: number;
     prevVersion: number | null;
   }): Promise<DashboardUpdateData> {
-    dashboard.uid = getDashboardUid({ dnpName, uid: dashboard.uid, index });
+    const dashboardData = getDashboardUid({ dnpName, dashboard, index });
+    // Minimize the risk of collisions by using sanitized uid and title props
+    dashboard.uid = dashboardData.uid;
+    dashboard.title = dashboardData.title;
     // Clean extra data from the developer
     delete dashboard.id;
     delete dashboard.version;
@@ -32,12 +35,12 @@ export class GrafanaClient {
     // Create folder if it doesn't exist yet
     // NOTE: folders are dashboards, they MUST have a different UID and title
     // than all its child dashboards. they don't fix the uniqueness isue
-    const folderUid = getFolderUidFromDnpName(dnpName);
+    const folderData = getFolderUidFromDnpName(dnpName);
     const folder =
-      (await this.grafanaApiClient.getFolder(folderUid)) ||
+      (await this.grafanaApiClient.getFolder(folderData.uid)) ||
       (await this.grafanaApiClient.createFolder({
-        uid: folderUid,
-        title: folderUid
+        uid: folderData.uid,
+        title: folderData.title
       }));
 
     const currentDashboard = await this.grafanaApiClient.getDashboard(
@@ -84,7 +87,7 @@ export class GrafanaClient {
    * Remove all dashboards for dnpName only if exists
    */
   async removeDashboards(dnpName: string): Promise<void> {
-    const folderUid = getFolderUidFromDnpName(dnpName);
-    await this.grafanaApiClient.deleteFolder(folderUid);
+    const folderData = getFolderUidFromDnpName(dnpName);
+    await this.grafanaApiClient.deleteFolder(folderData.uid);
   }
 }
