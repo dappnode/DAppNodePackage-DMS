@@ -10,6 +10,9 @@
   "contributors": [
     "DAppLion <dapplion@giveth.io> (https://github.com/dapplion)"
   ],
+  "requirements": {
+    "minimumDappnodeVersion": "0.2.39"
+  },
   "categories": ["Monitoring"],
   "links": {
     "ui": "http://dms.dappnode/dashboards",
