@@ -20,8 +20,8 @@ According to the following diagram, the DMS package provides a high level of abs
 
 ### Instructions to implement Grafana and Prometheus in your DAppNode package:
 
-- <prometheus-targets.json> file: specifying the domain and the port where the data will be published.
-- <name-grafana-dashboard.json> file: specifying the grafana dashboard to be used.
+- **prometheus-targets.json** file: specifying the domain and the port where the data will be published.
+- **name-grafana-dashboard.json** file: specifying the grafana dashboard to be used.
 
 If you want to learn more about how do Grafana and Prometheus work, visit this [link](https://prometheus.io/docs/visualization/grafana/)
 
