@@ -12,6 +12,19 @@ This package privately and locally collects and displays metrics related to your
 
 ---
 
+## How does it work?
+
+According to the following diagram, the DMS package provides a high level of abstraction, allowing any new DAppNode package developed to easily implement grafana and prometheus.
+
+![diagram](grafana-prometheus.png)
+
+### Instructions to implement Grafana and Prometheus in your DAppNode package:
+
+- <prometheus-targets.json> file: specifying the domain and the port where the data will be published.
+- <name-grafana-dashboard.json> file: specifying the grafana dashboard to be used.
+
+If you want to learn more about how do Grafana and Prometheus work, visit this [link](https://prometheus.io/docs/visualization/grafana/)
+
 ## Note
 
 This is early stage software and it's just a PoC
