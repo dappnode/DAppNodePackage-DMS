@@ -2,20 +2,20 @@ version: "3.4"
 services:
   grafana:
     build: ./grafana
-    image: "grafana.dms.dnp.dappnode.eth:0.2.0"
+    image: "grafana.dms.dnp.dappnode.eth:1.0.1"
     restart: always
     volumes:
       - "grafana_data:/var/lib/grafana"
   prometheus:
     build: ./prometheus
-    image: "prometheus.dms.dnp.dappnode.eth:0.2.0"
+    image: "prometheus.dms.dnp.dappnode.eth:1.0.1"
     restart: always
     volumes:
       - "prometheus_data:/prometheus"
       - "prometheus_file_sd:/prometheus_file_sd"
   manager:
     build: ./manager
-    image: "manager.dms.dnp.dappnode.eth:0.2.0"
+    image: "manager.dms.dnp.dappnode.eth:1.0.1"
     restart: always
     volumes:
       - "manager_data:/data"

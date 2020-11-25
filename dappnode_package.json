@@ -1,6 +1,6 @@
 {
   "name": "dms.dnp.dappnode.eth",
-  "version": "0.2.0",
+  "version": "1.0.1",
   "description": "This package privately and locally collects and displays metrics related to your dappnode and its packages. Based on Grafana and Prometheus",
   "shortDescription": "DAppNode Monitoring Service",
   "type": "service",
