@@ -14,6 +14,10 @@
     "minimumDappnodeVersion": "0.2.39"
   },
   "categories": ["Monitoring"],
+  "style": {
+    "featuredBackground": "linear-gradient(67deg, #000000, #123939)",
+    "featuredColor": "white"
+  },
   "links": {
     "ui": "http://dms.dappnode/dashboards",
     "grafana": "http://dms.dappnode",
