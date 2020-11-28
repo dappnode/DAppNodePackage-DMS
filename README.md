@@ -25,6 +25,25 @@ According to the following diagram, the DMS package provides a high level of abs
 
 If you want to learn more about how do Grafana and Prometheus work, visit this [link](https://prometheus.io/docs/visualization/grafana/)
 
+## How to add a custom prometheus endpoint
+
+In order to add a custom path to prometheus you need to overwrite the `__metrics_path__` label (by default `/metrics`), so that you can define diferent and specific metrics paths per target, like this:
+
+```
+[
+    {
+        "labels": {
+            "package": "tg.turbo-geth.dnp.dappnode.eth",
+            "service": "tg.turbo-geth.dappnode",
+            "__metrics_path__": "/debug/metrics/prometheus"
+        },
+        "targets": [
+            "tg.turbo-geth.dappnode:6060"
+        ]
+    }
+]
+```
+
 ## Note
 
 This is early stage software and it's just a PoC
