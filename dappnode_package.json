@@ -1,12 +1,13 @@
 {
   "name": "dms.dnp.dappnode.eth",
   "version": "1.0.1",
-  "description": "This package privately and locally collects and displays metrics related to your dappnode and its packages. Based on Grafana and Prometheus",
+  "description":  "This package privately and locally collects and displays metrics related to your dappnode and its packages. Based on Grafana and Prometheus.This package requires you to install the package Node-Exporter. You can find a guide on how to set up your monitoring system in the next link https://forum.dappnode.io/t/begginer-friendly-install-monitoring-system-on-dappnode-using-dms-package/623",
   "shortDescription": "DAppNode Monitoring Service",
   "type": "service",
   "architectures": ["linux/amd64", "linux/arm64"],
   "mainService": "grafana",
   "author": "DAppNode Association <admin@dappnode.io> (https://github.com/dappnode)",
+  "dependencies": {"dappnode-exporter.dnp.dappnode.eth": "latest"},
   "contributors": [
     "DAppLion <dapplion@giveth.io> (https://github.com/dapplion)"
   ],
