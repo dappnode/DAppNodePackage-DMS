@@ -7,7 +7,6 @@
   "architectures": ["linux/amd64", "linux/arm64"],
   "mainService": "grafana",
   "author": "DAppNode Association <admin@dappnode.io> (https://github.com/dappnode)",
-  "dependencies": {"dappnode-exporter.dnp.dappnode.eth": "latest"},
   "contributors": [
     "DAppLion <dapplion@giveth.io> (https://github.com/dapplion)"
   ],
