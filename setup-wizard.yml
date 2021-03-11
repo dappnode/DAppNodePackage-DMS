@@ -1,0 +1,14 @@
+version: "2"
+fields:
+  - id: log-retention-time
+    target:
+      type: environment
+      name: DATA_RETENTION_DAYS
+      service: prometheus
+    title: Log Retention Time
+    description: >-
+      Define how much time the logs/data of your applications will be stored. By default, this time is set up to 15 days. 
+      Take care of using a big number because the logs can occupy so much disk space. The unit measure is days. So if you define 30, the retention time will be 30 days.
+    pattern: "^[0-9]*$"
+    patternErrorMessage: "The input must contain only numbers."
+    required: false

@@ -13,6 +13,8 @@ services:
     volumes:
       - "prometheus_data:/prometheus"
       - "prometheus_file_sd:/prometheus_file_sd"
+    environment:
+      DATA_RETENTION_DAYS: 15
   manager:
     build: ./manager
     image: "manager.dms.dnp.dappnode.eth:1.0.1"
