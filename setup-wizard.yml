@@ -3,7 +3,7 @@ fields:
   - id: log-retention-time
     target:
       type: environment
-      name: RETENTION
+      name: DATA_RETENTION_DAYS
       service: prometheus
     title: Log Retention Time
     description: >-
