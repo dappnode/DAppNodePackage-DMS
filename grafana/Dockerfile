@@ -1,4 +1,6 @@
-FROM grafana/grafana:7.3.3
+ARG UPSTREAM_VERSION
+
+FROM grafana/grafana:${UPSTREAM_VERSION}
 
 USER root
 
