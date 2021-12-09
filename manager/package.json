@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "test": "mocha \"./{,!(node_modules)/**}/*.test.ts\" ",
-    "build": "webpack",
+    "build": "export NODE_OPTIONS=--openssl-legacy-provider; webpack",
     "check:types": "tsc --noEmit"
   },
   "dependencies": {
