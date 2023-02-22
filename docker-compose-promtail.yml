@@ -36,6 +36,17 @@ services:
     command: "-config.file=/etc/loki/local-config.yaml"
     restart: always
     image: "loki.dms.dnp.dappnode.eth:1.0.1"
+  promtail:
+    build:
+      context: promtail
+      args:
+        UPSTREAM_VERSION: 2.7.3
+    volumes:
+      - "/var/log:/var/log:ro"
+      - "/var/lib/docker/containers:/var/lib/docker/containers:ro"
+    command: "-config.file=/etc/promtail/config.yml"
+    restart: always
+    image: "promtail.dms.dnp.dappnode.eth:1.0.1"
 volumes:
   grafana_data: {}
   prometheus_data: {}
