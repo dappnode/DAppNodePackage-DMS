@@ -32,5 +32,8 @@
   "bugs": {
     "url": "https://github.com/dappnode/DMS/issues"
   },
+  "dependencies": {
+    "exporter.dnp.dappnode.eth": "latest"
+  },
   "license": "GPL-3.0"
 }
