@@ -1,8 +1,8 @@
-# DMS DAppNode Package
+# DMS Dapnode Package
 
-[![DAppNode Available](https://img.shields.io/badge/DAppNode-Available-brightgreen.svg)](http://my.dappnode/#/installer/dms.dnp.dappnode.eth)
+[![Dappnode Available](https://img.shields.io/badge/DAppNode-Available-brightgreen.svg)](http://my.dappnode/#/installer/dms.dnp.dappnode.eth)
 
-**D**AppNode **M**onitoring **S**ervice
+**D**appnode **M**onitoring **S**ervice
 
 This package privately and locally collects and displays metrics related to your dappnode and its packages. Based on Grafana and Prometheus
 
@@ -43,10 +43,6 @@ In order to add a custom path to prometheus you need to overwrite the `__metrics
     }
 ]
 ```
-
-## Note
-
-This is early stage software and it's just a PoC
 
 ## License
 
