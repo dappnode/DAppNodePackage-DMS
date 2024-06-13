@@ -5,12 +5,10 @@ FROM --platform=${BUILDPLATFORM:-amd64} node:alpine as build
 
 WORKDIR /app
 COPY package.json yarn.lock ./
-RUN yarn --frozen-lockfile --non-interactive --ignore-scripts --ignore-optional --production
+RUN yarn --frozen-lockfile --non-interactive --ignore-scripts --ignore-optional 
 
 COPY . ./
-RUN yarn build
-
-
+RUN yarn build-webpack
 
 ##########################
 # Final stage
