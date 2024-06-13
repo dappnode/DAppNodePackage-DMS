@@ -1,6 +1,7 @@
-import got from "got";
 import { Manifest, PublicPackage } from "../types";
 import { urlJoin } from "../utils";
+import { request } from "http";
+import { URL } from "url";
 
 export const ManifestMismatchErrorCode = "MANIFEST_MISMATCH";
 export class ManifestMismatchError extends Error {
@@ -15,7 +16,7 @@ export class DappmanagerClient {
   }
 
   async fetchPublicPackages(): Promise<PublicPackage[]> {
-    return await got(urlJoin(this.baseUrl, "/public-packages")).json();
+    return this.fetchJson(urlJoin(this.baseUrl, "/public-packages"));
   }
 
   async fetchPackageManifest({
@@ -25,9 +26,9 @@ export class DappmanagerClient {
     name: string;
     version: string;
   }): Promise<Manifest> {
-    const manifest = await got(
+    const manifest = await this.fetchJson(
       urlJoin(this.baseUrl, `/package-manifest/${name}`)
-    ).json<Manifest>();
+    );
 
     if (name !== manifest.name)
       throw new ManifestMismatchError(
@@ -39,5 +40,50 @@ export class DappmanagerClient {
       );
 
     return manifest;
+  }
+
+  private fetchJson(url: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+      const { hostname, pathname, search } = new URL(url);
+
+      const options = {
+        hostname,
+        path: pathname + search,
+        method: "GET",
+        headers: {
+          Accept: "application/json"
+        }
+      };
+
+      const req = request(options, res => {
+        let data = "";
+
+        res.on("data", chunk => {
+          data += chunk;
+        });
+
+        res.on("end", () => {
+          if (res.statusCode !== 200) {
+            reject(
+              new Error(`Request failed with status code ${res.statusCode}`)
+            );
+            return;
+          }
+
+          try {
+            const json = JSON.parse(data);
+            resolve(json);
+          } catch (err) {
+            reject(err);
+          }
+        });
+      });
+
+      req.on("error", err => {
+        reject(err);
+      });
+
+      req.end();
+    });
   }
 }
