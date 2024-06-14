@@ -4,7 +4,7 @@ services:
     build:
       context: grafana
       args:
-        UPSTREAM_VERSION: 9.3.6
+        UPSTREAM_VERSION_GRAFANA: 11.0.0
     image: "grafana.dms.dnp.dappnode.eth:1.0.1"
     restart: always
     volumes:
@@ -13,7 +13,7 @@ services:
     build:
       context: prometheus
       args:
-        UPSTREAM_VERSION: v2.30.0
+        UPSTREAM_VERSION_PROMETHEUS: v2.52.0
     image: "prometheus.dms.dnp.dappnode.eth:1.0.1"
     restart: always
     volumes:
