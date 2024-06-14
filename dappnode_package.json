@@ -4,6 +4,18 @@
   "description": "This package privately and locally collects and displays metrics related to your dappnode and its packages. Based on Grafana and Prometheus. It is recommended to also install the package Node-Exporter if you want system metrics. You can find a guide on how to set up your monitoring system in the next link https://forum.dappnode.io/t/begginer-friendly-install-monitoring-system-on-dappnode-using-dms-package/623",
   "shortDescription": "DAppNode Monitoring Service",
   "type": "service",
+  "upstream": [
+    {
+      "repo": "prometheus/prometheus",
+      "version": "2.52.0",
+      "arg": "UPSTREAM_VERSION"
+    },
+    {
+      "repo": "grafana/grafana",
+      "version": "11.0.0",
+      "arg": "UPSTREAM_VERSION"
+    }
+  ],
   "architectures": ["linux/amd64"],
   "mainService": "grafana",
   "author": "DAppNode Association <admin@dappnode.io> (https://github.com/dappnode)",
