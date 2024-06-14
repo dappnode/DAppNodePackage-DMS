@@ -1,0 +1,3 @@
+ARG UPSTREAM_VERSION
+
+FROM gcr.io/cadvisor/cadvisor:$UPSTREAM_VERSION

@@ -4,7 +4,7 @@ services:
     build:
       context: grafana
       args:
-        UPSTREAM_VERSION_GRAFANA: 11.0.0
+        UPSTREAM_VERSION_GRAFANA: V11.0.0
     image: "grafana.dms.dnp.dappnode.eth:1.0.1"
     restart: always
     volumes:
@@ -28,6 +28,37 @@ services:
     volumes:
       - "manager_data:/data"
       - "prometheus_file_sd:/prometheus_file_sd"
+  node-exporter:
+    build:
+      context: node_exporter
+      args:
+        UPSTREAM_VERSION_NODE_EXPORTER: v1.6.1
+    restart: always
+    volumes:
+      - "/:/host:ro,rslave"
+    command:
+      - "--path.rootfs=/host"
+    image: "node-exporter.dappnode-exporter.dnp.dappnode.eth:1.0.3"
+  cadvisor:
+    build:
+      context: cadvisor
+      args:
+        UPSTREAM_VERSION_CADVISOR: v0.47.1
+    restart: always
+    volumes:
+      - "/:/rootfs:ro"
+      - "/var/run:/var/run:rw"
+      - "/sys:/sys:ro"
+      - "/var/lib/docker/:/var/lib/docker:ro"
+    image: "cadvisor.dappnode-exporter.dnp.dappnode.eth:1.0.3"
+  stakers-metrics:
+    build:
+      context: stakers-metrics
+      dockerfile: Dockerfile
+    restart: always
+    image: "stakers-metrics.dappnode-exporter.dnp.dappnode.eth:1.0.3"
+    environment:
+      - DEBUG_MODE=false
 volumes:
   grafana_data: {}
   prometheus_data: {}
