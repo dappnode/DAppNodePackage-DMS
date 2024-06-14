@@ -8,12 +8,12 @@
     {
       "repo": "prometheus/prometheus",
       "version": "2.52.0",
-      "arg": "UPSTREAM_VERSION"
+      "arg": "UPSTREAM_VERSION_PROMETHEUS"
     },
     {
       "repo": "grafana/grafana",
       "version": "11.0.0",
-      "arg": "UPSTREAM_VERSION"
+      "arg": "UPSTREAM_VERSION_GRAFANA"
     }
   ],
   "architectures": ["linux/amd64"],
