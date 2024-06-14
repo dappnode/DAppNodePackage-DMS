@@ -28,14 +28,6 @@ services:
     volumes:
       - "manager_data:/data"
       - "prometheus_file_sd:/prometheus_file_sd"
-  loki:
-    build:
-      context: loki
-      args:
-        UPSTREAM_VERSION: 2.7.3
-    command: "-config.file=/etc/loki/local-config.yaml"
-    restart: always
-    image: "loki.dms.dnp.dappnode.eth:1.0.1"
 volumes:
   grafana_data: {}
   prometheus_data: {}
