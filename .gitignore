@@ -3,3 +3,6 @@ build_*
 
 manager/node_modules/
 manager/dist/
+
+staker-metrics/node_modules/
+staker-metrics/dist/
