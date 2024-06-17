@@ -4,7 +4,7 @@ services:
     build:
       context: grafana
       args:
-        UPSTREAM_VERSION_GRAFANA: v11.0.0
+        UPSTREAM_VERSION_GRAFANA: 11.0.0
     image: "grafana.dms.dnp.dappnode.eth:1.0.1"
     restart: always
     volumes:
