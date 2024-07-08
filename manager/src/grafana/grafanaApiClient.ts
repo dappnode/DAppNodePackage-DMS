@@ -49,20 +49,13 @@ export class GrafanaApiClient {
   }
 
   // GET /api/folders/:uid
-  /**
-   * WARNING! On 404 returns HTML, not a proper error code
-   */
-  // async getFolder(uid: string): Promise<FolderData | null> {
-  //   try {
-  //     return await this.fetch("/api/folders/uid/" + uid, { method: "GET" });
-  //   } catch (e) {
-  //     if (e.message.includes("not found")) return null;
-  //     else throw e;
-  //   }
-  // }
-  async getFolder(uid: string): Promise<FolderDataShort | null> {
-    const folders = await this.getAllFolders();
-    return folders.find(folder => folder.uid === uid) ?? null;
+  async getFolder(uid: string): Promise<FolderData | null> {
+    try {
+      return await this.fetch("/api/folders/" + uid, { method: "GET" });
+    } catch (e) {
+      if (e.code === NotFoundErrorCode) return null;
+      else throw e;
+    }
   }
 
   // POST /api/folders

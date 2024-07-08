@@ -1,0 +1,20 @@
+[
+    {
+      "labels": {
+        "job": "nodeexporter"
+      },
+      "targets": ["node-exporter.dms.dappnode:9100"]
+    },
+    {
+      "labels": {
+        "job": "cadvisor"
+      },
+      "targets": ["cadvisor.dms.dappnode:8080"]
+    },
+    {
+      "labels": {
+        "job": "stakersmetrics"
+      },
+      "targets": ["stakers-metrics.dms.dappnode:9090"]
+    }
+  ]
