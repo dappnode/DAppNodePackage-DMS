@@ -33,7 +33,8 @@
     "DAppLion <dapplion@giveth.io> (https://github.com/dapplion)"
   ],
   "requirements": {
-    "minimumDappnodeVersion": "0.2.90"
+    "minimumDappnodeVersion": "0.2.95",
+    "notInstalledPackages": ["dappnode-exporter.dnp.dappnode.eth"]
   },
   "categories": ["Monitoring"],
   "style": {
