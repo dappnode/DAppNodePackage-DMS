@@ -3,7 +3,7 @@
   "version": "2.0.0",
   "description": "This package privately and locally collects and displays metrics related to your dappnode and its packages. Based on Grafana and Prometheus. It is recommended to also install the package Node-Exporter if you want system metrics.",
   "shortDescription": "DAppNode Monitoring Service",
-  "type": "service",
+  "type": "dncore",
   "upstream": [
     {
       "repo": "prometheus/node_exporter",
