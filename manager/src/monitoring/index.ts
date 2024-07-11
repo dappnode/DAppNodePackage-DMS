@@ -102,31 +102,33 @@ export class MonitoringManager {
     const currentDashboards = dbData?.dashboards || [];
     const updatedDashboards: DashboardUpdateData[] = [];
 
-    await Promise.all(
-      (manifest.grafanaDashboards || []).map(async (dashboard, index) => {
-        try {
-          const prevVersion =
-            currentDashboards.find(d => d.uid === dashboard.uid)?.version ??
-            null;
-          const updatedDashboard = await this.grafanaClient.importDashboard({
-            dashboard,
-            dnpName,
-            dnpVersion: version,
-            index,
-            prevVersion
-          });
-          updatedDashboards.push(updatedDashboard);
-        } catch (e) {
-          if (e instanceof BadDashboardError) {
-            console.error(
-              `Ignoring bad dashboard ${dnpName} ${dashboard.uid}: ${e.message}`
-            );
-          } else {
-            throw e;
-          }
+    // Import each dashboard sequentially. We do this to avoid conflicts when importing multiple
+    // dashboard for the same package.
+    for (const [index, dashboard] of (manifest.grafanaDashboards || []).entries()) {
+      try {
+        // Find previous version of the dashboard if it exists
+        const prevVersion = currentDashboards.find(d => d.uid === dashboard.uid)?.version ?? null;
+
+        // Call importDashboard sequentially and wait for each to complete before continuing
+        const updatedDashboard = await this.grafanaClient.importDashboard({
+          dashboard,
+          dnpName,
+          dnpVersion: version,
+          index,
+          prevVersion
+        });
+
+        // Add the updated dashboard to the array of updated dashboards
+        updatedDashboards.push(updatedDashboard);
+      } catch (e) {
+        if (e instanceof BadDashboardError) {
+          console.error(`Ignoring bad dashboard ${dnpName} ${dashboard.uid}: ${e.message}`);
+        } else {
+          // Rethrow the error if it's not a BadDashboardError
+          throw e;
         }
-      })
-    );
+      }
+    }
 
     this.db.set({ dnpName, version, dashboards: updatedDashboards });
   }
