@@ -1,14 +1,19 @@
-version: "3.4"
+version: "3.8"
 services:
   grafana:
     build:
       context: grafana
       args:
-        UPSTREAM_VERSION_GRAFANA: 11.0.0
+        UPSTREAM_VERSION_GRAFANA: 11.1.0
     image: "grafana.dms.dnp.dappnode.eth:1.0.1"
     restart: always
     volumes:
       - "grafana_data:/var/lib/grafana"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/api/health"]
+      interval: 20s
+      timeout: 10s
+      retries: 5
   prometheus:
     build:
       context: prometheus
@@ -28,6 +33,40 @@ services:
     volumes:
       - "manager_data:/data"
       - "prometheus_file_sd:/prometheus_file_sd"
+    depends_on:
+      grafana:
+        condition: service_healthy
+  node-exporter:
+    build:
+      context: node_exporter
+      args:
+        UPSTREAM_VERSION_NODE_EXPORTER: v1.6.1
+    restart: always
+    volumes:
+      - "/:/host:ro,rslave"
+    command:
+      - "--path.rootfs=/host"
+    image: "node-exporter.dms.dnp.dappnode.eth:1.0.3"
+  cadvisor:
+    build:
+      context: cadvisor
+      args:
+        UPSTREAM_VERSION_CADVISOR: v0.47.1
+    restart: always
+    volumes:
+      - "/:/rootfs:ro"
+      - "/var/run:/var/run:rw"
+      - "/sys:/sys:ro"
+      - "/var/lib/docker/:/var/lib/docker:ro"
+    image: "cadvisor.dms.dnp.dappnode.eth:1.0.3"
+  stakers-metrics:
+    build:
+      context: stakers-metrics
+      dockerfile: Dockerfile
+    restart: always
+    image: "stakers-metrics.dms.dnp.dappnode.eth:1.0.3"
+    environment:
+      - DEBUG_MODE=false
 volumes:
   grafana_data: {}
   prometheus_data: {}
