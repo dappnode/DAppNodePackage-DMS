@@ -1,7 +1,7 @@
 {
   "name": "dms.dnp.dappnode.eth",
   "version": "2.0.0",
-  "description": "This package privately and locally collects and displays metrics related to your dappnode and its packages. Based on Grafana and Prometheus. It is recommended to also install the package Node-Exporter if you want system metrics.",
+  "description": "This package privately and locally collects and displays metrics related to your dappnode and its packages. Based on Grafana and Prometheus.",
   "shortDescription": "DAppNode Monitoring Service",
   "type": "service",
   "upstream": [
