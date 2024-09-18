@@ -67,6 +67,14 @@ services:
     image: "stakers-metrics.dms.dnp.dappnode.eth:1.0.3"
     environment:
       - DEBUG_MODE=false
+  loki:
+    build:
+      context: loki
+      args:
+        UPSTREAM_VERSION: 2.7.3
+    command: "-config.file=/etc/loki/local-config.yaml"
+    restart: always
+    image: "loki.dms.dnp.dappnode.eth:1.0.1"
 volumes:
   grafana_data: {}
   prometheus_data: {}
