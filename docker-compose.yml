@@ -71,7 +71,7 @@ services:
     build:
       context: loki
       args:
-        UPSTREAM_VERSION: 2.7.3
+        UPSTREAM_VERSION_LOKI: 3.1.1
     command: "-config.file=/etc/loki/local-config.yaml"
     restart: always
     image: "loki.dms.dnp.dappnode.eth:1.0.1"
