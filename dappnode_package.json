@@ -24,6 +24,11 @@
       "repo": "grafana/grafana",
       "version": "11.1.0",
       "arg": "UPSTREAM_VERSION_GRAFANA"
+    },
+    {
+      "repo": "grafana/loki",
+      "version": "3.1.1",
+      "arg": "UPSTREAM_VERSION_LOKI"
     }
   ],
   "architectures": ["linux/amd64"],
