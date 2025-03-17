@@ -2,113 +2,48 @@ endpoints:
   - name: "High CPU Usage Check"
     enabled: true
     group: "host"
-    url: "http://prometheus.dms.dappnode:9090/api/v1/query?query=avg%20by%20(instance)%20(rate(node_cpu_seconds_total%7Bmode%21%3D%22idle%22%7D%5B2m%5D))"
+    url: "http://prometheus.dms.dappnode:9090/api/v1/query?query=100*avg%20by%20(instance)%20(rate(node_cpu_seconds_total%7Bmode%21%3D%22idle%22%7D%5B2m%5D))"
+    method: "GET"
+    interval: "30s"
+    conditions:
+      - "[BODY].data.result[0].value[1] > 80"
+    metric: 
+      min: 0;
+      max: 100;
+      unit: "%"
+    definition:
+      title: "Configure your CPU Usage Alert"
+      description: "Triggers if CPU usage exceeds the limit defined in the condition"
+    alerts:
+      - type: custom
+        enabled: true
+        description: "CPU % usage above [CONDITION_VALUE]"
+        failure-threshold: 2
+        success-threshold: 1
+        send-on-resolved: true
+
+  - name: "Host out of memory check"
+    enabled: true
+    group: "host"
+    url: "http://prometheus.dms.dappnode:9090/api/v1/query?query=100*node_memory_MemAvailable_bytes%20%2F%20node_memory_MemTotal_bytes"
     method: "GET"
     interval: "30s"  
     conditions:
-      - "[BODY].data.result[0].value[1] > 0.80"  # Extract the second element of 'value' array
+      - "[BODY].data.result[0].value[1] < 10" 
+    metric: 
+      min: 0;
+      max: 100;
+      unit: "%"
     definition:
-      title: "High CPU Usage Alert"
-      description: "Triggers if CPU usage exceeds 80% for 1 minute."
+      title: "Configure your Memory Usage Alert"
+      description: "Triggers if available memory is below the limit defined in the condition"
     alerts:
       - type: custom
         enabled: true
-        description: "CPU usage above 80%"
-        failure-threshold: 2  
+        description: "Available memory below [CONDITION_VALUE]"
+        failure-threshold: 2
         success-threshold: 1  
         send-on-resolved: true
 
-  - name: "Low Available Memory Check"
-    enabled: true
-    group: "host"
-    url: "http://prometheus.dms.dappnode:9090/api/v1/query?query=node_memory_MemAvailable_bytes%20%2F%20node_memory_MemTotal_bytes"
-    method: "GET"
-    interval: "30s"  # Check every 30 seconds
-    conditions:
-      - "[BODY].data.result[0].value[1] < 0.10"  # Less than 10% memory available
-    definition:
-      title: "Host Out of Memory Alert"
-      description: "Triggers if available memory drops below 10% for 2 minutes."
-    alerts:
-      - type: custom
-        enabled: true
-        description: "Available memory below 10% for 2 minutes"
-        failure-threshold: 4  # (Every 30s * 4 = 2 minutes)
-        success-threshold: 1  
-        send-on-resolved: true
 
-  - name: "Low Disk Space Check"
-    enabled: true
-    group: "host"
-    url: "http://prometheus.dms.dappnode:9090/api/v1/query?query=(node_filesystem_avail_bytes%7Bfstype!~%22^(fuse.*|tmpfs|cifs|nfs)%22%7D%20%2F%20node_filesystem_size_bytes%20%3C%200.10%20and%20on%20(instance%2C%20device%2C%20mountpoint)%20node_filesystem_readonly%20%3D%3D%200)"
-    method: "GET"
-    interval: "30s"  # Check every 30 seconds
-    conditions:
-      - "[BODY].data.result[0].value[1] < 0.10"  # Less than 10% disk space remaining
-    definition:
-      title: "Host Out of Disk Space Alert"
-      description: "Triggers if disk space falls below 10% for 2 minutes."
-    alerts:
-      - type: custom
-        enabled: true
-        description: "Disk space below 10% for 2 minutes"
-        failure-threshold: 4  # (30s check interval * 4 = 2 minutes)
-        success-threshold: 1  
-        send-on-resolved: true
 
-  - name: "Disk Filling Up Prediction"
-    enabled: true
-    group: "host"
-    url: "http://prometheus.dms.dappnode:9090/api/v1/query?query=predict_linear(node_filesystem_avail_bytes%7Bfstype!~%22^(fuse.*|tmpfs|cifs|nfs)%22%7D%5B1h%5D%2C%2086400)%20%3C%3D%200%20and%20node_filesystem_avail_bytes%20%3E%200"
-    method: "GET"
-    interval: "30s"  # Check every 30 seconds
-    conditions:
-      - "[BODY].data.result[0].value[1] <= 0"  # Predicts disk will be full within 24 hours
-    definition:
-      title: "Host Disk May Fill in 24 Hours Alert"
-      description: "Triggers if the system predicts disk space will be exhausted within 24 hours."
-    alerts:
-      - type: custom
-        enabled: true
-        description: "Filesystem predicted to run out of space in 24 hours"
-        failure-threshold: 4  # (30s * 4 = 2 minutes)
-        success-threshold: 1  
-        send-on-resolved: true
-
-  - name: "Physical Component Overheating"
-    enabled: true
-    group: "host"
-    url: "http://prometheus.dms.dappnode:9090/api/v1/query?query=node_hwmon_temp_celsius%20%3E%20node_hwmon_temp_max_celsius"
-    method: "GET"
-    interval: "30s"  # Check every 30 seconds
-    conditions:
-      - "[BODY].data.result[0].value[1] > 0"  # Ensures overheating condition is detected
-    definition:
-      title: "Host Physical Component Overheating Alert"
-      description: "Triggers if any hardware component exceeds its maximum temperature threshold."
-    alerts:
-      - type: custom
-        enabled: true
-        description: "Hardware component temperature too high for 5 minutes"
-        failure-threshold: 10  # (30s * 10 = 5 minutes)
-        success-threshold: 1  
-        send-on-resolved: true
-
-  - name: "Node Overtemperature Alarm"
-    enabled: true
-    group: "host"
-    url: "http://prometheus.dms.dappnode:9090/api/v1/query?query=%28node_hwmon_temp_crit_alarm_celsius%20%3D%3D%201%29%20or%20%28node_hwmon_temp_alarm%20%3D%3D%201%29"
-    method: "GET"
-    interval: "30s"  # Check every 30 seconds
-    conditions:
-      - "[BODY].data.result[0].value[1] == 1"  # Overtemperature alarm triggered
-    definition:
-      title: "Host Node Overtemperature Alarm"
-      description: "Triggers immediately if a critical temperature alarm is raised."
-    alerts:
-      - type: custom
-        enabled: true
-        description: "Node temperature alarm triggered"
-        failure-threshold: 1  # Immediate alert
-        success-threshold: 1  
-        send-on-resolved: true
