@@ -7,9 +7,9 @@ endpoints:
     interval: "30s"
     conditions:
       - "[BODY].data.result[0].value[1] < 80"
-    metric: 
-      min: 0;
-      max: 100;
+    metric:
+      min: 0
+      max: 100
       unit: "%"
     definition:
       title: "Configure your CPU Usage Alert"
@@ -27,12 +27,12 @@ endpoints:
     group: "host"
     url: "http://prometheus.dms.dappnode:9090/api/v1/query?query=100*node_memory_MemAvailable_bytes%20%2F%20node_memory_MemTotal_bytes"
     method: "GET"
-    interval: "30s"  
+    interval: "30s"
     conditions:
-      - "[BODY].data.result[0].value[1] > 10" 
-    metric: 
-      min: 0;
-      max: 100;
+      - "[BODY].data.result[0].value[1] > 10"
+    metric:
+      min: 0
+      max: 100
       unit: "%"
     definition:
       title: "Configure your Memory Usage Alert"
@@ -42,7 +42,7 @@ endpoints:
         enabled: true
         description: "Available memory below [CONDITION_VALUE]"
         failure-threshold: 2
-        success-threshold: 1  
+        success-threshold: 1
         send-on-resolved: true
 
   - name: "Host Out of Disk Space Check"
@@ -52,8 +52,8 @@ endpoints:
     method: "GET"
     interval: "30s"
     conditions:
-      - "[BODY].data.result[0].value[1] > 10"  # Alert if average available disk space < 10%
-    metric: 
+      - "[BODY].data.result[0].value[1] > 10" # Alert if average available disk space < 10%
+    metric:
       min: 0
       max: 100
       unit: "%"
@@ -75,8 +75,8 @@ endpoints:
     method: "GET"
     interval: "30s"
     conditions:
-      - "[BODY].data.result[0].value[1] < 85"  
-    metric: 
+      - "[BODY].data.result[0].value[1] < 85"
+    metric:
       min: 25
       max: 100
       unit: "°C"
