@@ -7,7 +7,7 @@
   "upstream": [
     {
       "repo": "prometheus/node_exporter",
-      "version": "v1.6.1",
+      "version": "v1.9.0",
       "arg": "UPSTREAM_VERSION_NODE_EXPORTER"
     },
     {
