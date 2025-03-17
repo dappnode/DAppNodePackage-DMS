@@ -6,7 +6,7 @@ endpoints:
     method: "GET"
     interval: "30s"
     conditions:
-      - "[BODY].data.result[0].value[1] > 80"
+      - "[BODY].data.result[0].value[1] < 80"
     metric: 
       min: 0;
       max: 100;
@@ -29,7 +29,7 @@ endpoints:
     method: "GET"
     interval: "30s"  
     conditions:
-      - "[BODY].data.result[0].value[1] < 10" 
+      - "[BODY].data.result[0].value[1] > 10" 
     metric: 
       min: 0;
       max: 100;
