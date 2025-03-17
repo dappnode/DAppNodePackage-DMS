@@ -45,5 +45,48 @@ endpoints:
         success-threshold: 1  
         send-on-resolved: true
 
+  - name: "Host Out of Disk Space Check"
+    enabled: true
+    group: "host"
+    url: "http://prometheus.dms.dappnode:9090/api/v1/query?query=avg((node_filesystem_avail_bytes%7Bfstype!~%22^(fuse.*|tmpfs|cifs|nfs)%22%7D%20%2F%20node_filesystem_size_bytes)%20*%20100)"
+    method: "GET"
+    interval: "30s"
+    conditions:
+      - "[BODY].data.result[0].value[1] > 10"  # Alert if average available disk space < 10%
+    metric: 
+      min: 0
+      max: 100
+      unit: "%"
+    definition:
+      title: "Configure your Disk Space Alert"
+      description: "Triggers if the available disk space across all instances is below 10%"
+    alerts:
+      - type: custom
+        enabled: true
+        description: "Average disk space is critically low at [CONDITION_VALUE]%"
+        failure-threshold: 2
+        success-threshold: 1
+        send-on-resolved: true
 
-
+  - name: "Host Temperature Check"
+    enabled: true
+    group: "host"
+    url: "http://prometheus.dms.dappnode:9090/api/v1/query?query=avg(node_hwmon_temp_celsius)"
+    method: "GET"
+    interval: "30s"
+    conditions:
+      - "[BODY].data.result[0].value[1] < 85"  
+    metric: 
+      min: 25
+      max: 100
+      unit: "°C"
+    definition:
+      title: "Configure your Temperature Alert"
+      description: "Triggers if the average node temperature exceeds the defined threshold"
+    alerts:
+      - type: custom
+        enabled: true
+        description: "Average node temperature exceeded threshold: [CONDITION_VALUE]°C"
+        failure-threshold: 2
+        success-threshold: 1
+        send-on-resolved: true
