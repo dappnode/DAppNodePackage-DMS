@@ -59,7 +59,7 @@ endpoints:
       unit: "%"
     definition:
       title: "Configure your Disk Space Alert"
-      description: "Triggers if the available disk space across all instances is below 10%"
+      description: "Triggers if the available disk space across all instances is below the limit defined in the condition"
     alerts:
       - type: custom
         enabled: true
