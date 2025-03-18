@@ -71,7 +71,7 @@ endpoints:
   - name: "Host Temperature Check"
     enabled: true
     group: "host"
-    url: "http://prometheus.dms.dappnode:9090/api/v1/query?query=avg(node_hwmon_temp_celsius)"
+    url: "http://prometheus.dms.dappnode:9090/api/v1/query?query=avg(node_hwmon_temp_celsius%7Bchip%3D~%22coretemp.*%7Ck10temp.*%7Cpci0000%3A.*%7Cacpitz.*%22%7D)"
     method: "GET"
     interval: "30s"
     conditions:
