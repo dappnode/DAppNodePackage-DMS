@@ -14,6 +14,7 @@ endpoints:
     definition:
       title: "Configure your CPU Usage Alert"
       description: "Triggers if CPU usage exceeds the limit defined in the condition"
+    priority: "medium"
     alerts:
       - type: custom
         enabled: true
@@ -37,6 +38,7 @@ endpoints:
     definition:
       title: "Configure your Memory Usage Alert"
       description: "Triggers if available memory is below the limit defined in the condition"
+    priority: "medium"
     alerts:
       - type: custom
         enabled: true
@@ -60,6 +62,7 @@ endpoints:
     definition:
       title: "Configure your Disk Space Alert"
       description: "Triggers if the available disk space across all instances is below the limit defined in the condition"
+    priority: "high"
     alerts:
       - type: custom
         enabled: true
@@ -83,6 +86,7 @@ endpoints:
     definition:
       title: "Configure your Temperature Alert"
       description: "Triggers if the average node temperature exceeds the defined threshold"
+    priority: "medium"
     alerts:
       - type: custom
         enabled: true
