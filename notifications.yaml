@@ -15,6 +15,8 @@ endpoints:
       title: "Configure your CPU Usage Alert"
       description: "Triggers if CPU usage exceeds the limit defined in the condition"
     priority: "medium"
+    correlationId: "dms-cpu"
+    isBanner: "false"
     alerts:
       - type: custom
         enabled: true
@@ -39,6 +41,8 @@ endpoints:
       title: "Configure your Memory Usage Alert"
       description: "Triggers if available memory is below the limit defined in the condition"
     priority: "medium"
+    correlationId: "dms-memory"
+    isBanner: "false"
     alerts:
       - type: custom
         enabled: true
@@ -63,6 +67,8 @@ endpoints:
       title: "Configure your Disk Space Alert"
       description: "Triggers if the available disk space across all instances is below the limit defined in the condition"
     priority: "high"
+    correlationId: "dms-disk"
+    isBanner: "false"
     alerts:
       - type: custom
         enabled: true
@@ -87,6 +93,8 @@ endpoints:
       title: "Configure your Temperature Alert"
       description: "Triggers if the average node temperature exceeds the defined threshold"
     priority: "medium"
+    correlationId: "dms-temperature"
+    isBanner: "false"
     alerts:
       - type: custom
         enabled: true
