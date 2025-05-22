@@ -68,7 +68,7 @@ endpoints:
       description: "Triggers if the available disk space across all instances is below the limit defined in the condition"
     priority: "high"
     correlationId: "dms-disk"
-    isBanner: "false"
+    isBanner: "true"
     alerts:
       - type: custom
         enabled: true
@@ -94,7 +94,7 @@ endpoints:
       description: "Triggers if the average node temperature exceeds the defined threshold"
     priority: "medium"
     correlationId: "dms-temperature"
-    isBanner: "false"
+    isBanner: "true"
     alerts:
       - type: custom
         enabled: true
