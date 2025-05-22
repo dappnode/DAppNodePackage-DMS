@@ -28,7 +28,7 @@ endpoints:
   - name: "Host Out of Memory Check"
     enabled: true
     group: "hardware"
-    url: "http://prometheus.dms.dappnode:9090/api/v1/query?query=100*(1 - node_memory_MemAvailable_bytes/node_memory_MemTotal_bytes)"
+    url: "http://prometheus.dms.dappnode:9090/api/v1/query?query=100*(1-node_memory_MemAvailable_bytes/node_memory_MemTotal_bytes)"
     method: "GET"
     interval: "30s"
     conditions:
@@ -54,7 +54,7 @@ endpoints:
   - name: "Host Out of Disk Space Check"
     enabled: true
     group: "hardware"
-    url: "http://prometheus.dms.dappnode:9090/api/v1/query?query=avg((1 - node_filesystem_avail_bytes%7Bfstype!~%22^(fuse.*|tmpfs|cifs|nfs)%22%7D/node_filesystem_size_bytes)*100)""
+    url: "http://prometheus.dms.dappnode:9090/api/v1/query?query=avg((1-node_filesystem_avail_bytes%7Bfstype!~%22^(fuse.*|tmpfs|cifs|nfs)%22%7D/node_filesystem_size_bytes)*100)"
     method: "GET"
     interval: "30s"
     conditions:
