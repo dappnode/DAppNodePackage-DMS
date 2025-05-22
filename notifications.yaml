@@ -1,7 +1,7 @@
 endpoints:
   - name: "High CPU Usage Check"
     enabled: true
-    group: "host"
+    group: "hardware"
     url: "http://prometheus.dms.dappnode:9090/api/v1/query?query=100*avg%20by%20(instance)%20(rate(node_cpu_seconds_total%7Bmode!%3D%22idle%22%7D%5B2m%5D))"
     method: "GET"
     interval: "30s"
@@ -27,7 +27,7 @@ endpoints:
 
   - name: "Host Out of Memory Check"
     enabled: true
-    group: "host"
+    group: "hardware"
     url: >-
       http://prometheus.dms.dappnode:9090/api/v1/query?query=
       100*(1 - node_memory_MemAvailable_bytes/node_memory_MemTotal_bytes)
@@ -55,7 +55,7 @@ endpoints:
 
   - name: "Host Out of Disk Space Check"
     enabled: true
-    group: "host"
+    group: "hardware"
     url: >-
       http://prometheus.dms.dappnode:9090/api/v1/query?query=
       avg((1 - node_filesystem_avail_bytes%7Bfstype!~%22^(fuse.*|tmpfs|cifs|nfs)%22%7D/
@@ -84,7 +84,7 @@ endpoints:
 
   - name: "Host Temperature Check"
     enabled: true
-    group: "host"
+    group: "hardware"
     url: "http://prometheus.dms.dappnode:9090/api/v1/query?query=avg(node_hwmon_temp_celsius%7Bchip%3D~%22coretemp.*%7Ck10temp.*%7Cpci0000%3A.*%7Cacpitz.*%22%7D)"
     method: "GET"
     interval: "30s"
