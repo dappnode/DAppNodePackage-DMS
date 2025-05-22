@@ -2,11 +2,11 @@ endpoints:
   - name: "High CPU Usage Check"
     enabled: true
     group: "host"
-    url: "http://prometheus.dms.dappnode:9090/api/v1/query?query=100*avg%20by%20(instance)%20(rate(node_cpu_seconds_total%7Bmode%21%3D%22idle%22%7D%5B2m%5D))"
+    url: "http://prometheus.dms.dappnode:9090/api/v1/query?query=100*avg%20by%20(instance)%20(rate(node_cpu_seconds_total%7Bmode!%3D%22idle%22%7D%5B2m%5D))"
     method: "GET"
     interval: "30s"
     conditions:
-      - "[BODY].data.result[0].value[1] < 80"
+      - "[BODY].data.result[0].value[1] <= 80"
     metric:
       min: 0
       max: 100
@@ -25,28 +25,30 @@ endpoints:
         success-threshold: 1
         send-on-resolved: true
 
-  - name: "Host out of memory check"
+  - name: "Host Out of Memory Check"
     enabled: true
     group: "host"
-    url: "http://prometheus.dms.dappnode:9090/api/v1/query?query=100*node_memory_MemAvailable_bytes%20%2F%20node_memory_MemTotal_bytes"
+    url: >-
+      http://prometheus.dms.dappnode:9090/api/v1/query?query=
+      100*(1 - node_memory_MemAvailable_bytes/node_memory_MemTotal_bytes)
     method: "GET"
     interval: "30s"
     conditions:
-      - "[BODY].data.result[0].value[1] > 10"
+      - "[BODY].data.result[0].value[1] <= 90"
     metric:
       min: 0
       max: 100
       unit: "%"
     definition:
       title: "Configure your Memory Usage Alert"
-      description: "Triggers if available memory is below the limit defined in the condition"
+      description: "Triggers if memory usage exceeds the limit defined in the condition"
     priority: "medium"
     correlationId: "dms-memory"
     isBanner: "false"
     alerts:
       - type: custom
         enabled: true
-        description: "Available memory below [CONDITION_VALUE]"
+        description: "Memory % usage above [CONDITION_VALUE]"
         failure-threshold: 2
         success-threshold: 1
         send-on-resolved: true
@@ -54,25 +56,28 @@ endpoints:
   - name: "Host Out of Disk Space Check"
     enabled: true
     group: "host"
-    url: "http://prometheus.dms.dappnode:9090/api/v1/query?query=avg((node_filesystem_avail_bytes%7Bfstype!~%22^(fuse.*|tmpfs|cifs|nfs)%22%7D%20%2F%20node_filesystem_size_bytes)%20*%20100)"
+    url: >-
+      http://prometheus.dms.dappnode:9090/api/v1/query?query=
+      avg((1 - node_filesystem_avail_bytes%7Bfstype!~%22^(fuse.*|tmpfs|cifs|nfs)%22%7D/
+      node_filesystem_size_bytes)*100)
     method: "GET"
     interval: "30s"
     conditions:
-      - "[BODY].data.result[0].value[1] > 10" # Alert if average available disk space < 10%
+      - "[BODY].data.result[0].value[1] <= 90"
     metric:
       min: 0
       max: 100
       unit: "%"
     definition:
       title: "Configure your Disk Space Alert"
-      description: "Triggers if the available disk space across all instances is below the limit defined in the condition"
+      description: "Triggers if disk usage exceeds the limit defined in the condition"
     priority: "high"
     correlationId: "dms-disk"
     isBanner: "true"
     alerts:
       - type: custom
         enabled: true
-        description: "Average disk space is critically low at [CONDITION_VALUE]%"
+        description: "Disk % usage above [CONDITION_VALUE]"
         failure-threshold: 2
         success-threshold: 1
         send-on-resolved: true
@@ -84,7 +89,7 @@ endpoints:
     method: "GET"
     interval: "30s"
     conditions:
-      - "[BODY].data.result[0].value[1] < 85"
+      - "[BODY].data.result[0].value[1] <= 85"
     metric:
       min: 25
       max: 100
@@ -98,7 +103,7 @@ endpoints:
     alerts:
       - type: custom
         enabled: true
-        description: "Average node temperature exceeded threshold: [CONDITION_VALUE]°C"
+        description: "Average node temperature above [CONDITION_VALUE]°C"
         failure-threshold: 2
         success-threshold: 1
         send-on-resolved: true
