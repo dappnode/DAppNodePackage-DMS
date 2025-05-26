@@ -2,7 +2,7 @@ endpoints:
   - name: "High CPU Usage Check"
     enabled: true
     group: "hardware"
-    url: "http://prometheus.dms.dappnode:9090/api/v1/query?query=100*avg%20by%20(instance)%20(rate(node_cpu_seconds_total%7Bmode!%3D%22idle%22%7D%5B2m%5D))"
+    url: "http://prometheus.dms.dappnode:9090/api/v1/query?query=100%20*%20sum%20by%28instance%29%20%28rate%28node_cpu_seconds_total%7Bmode!%3D%22idle%22%7D%5B2m%5D%29%29%20%2F%20sum%20by%28instance%29%20%28rate%28node_cpu_seconds_total%5B2m%5D%29%29"
     method: "GET"
     interval: "30s"
     conditions:
@@ -68,7 +68,7 @@ endpoints:
       description: "Triggers if disk usage exceeds the limit defined in the condition"
     priority: "high"
     correlationId: "dms-disk"
-    isBanner: "true"
+    isBanner: "false"
     alerts:
       - type: custom
         enabled: true
@@ -94,7 +94,7 @@ endpoints:
       description: "Triggers if the average node temperature exceeds the defined threshold"
     priority: "medium"
     correlationId: "dms-temperature"
-    isBanner: "true"
+    isBanner: "false"
     alerts:
       - type: custom
         enabled: true
