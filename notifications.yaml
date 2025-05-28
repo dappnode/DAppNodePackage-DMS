@@ -25,7 +25,7 @@ endpoints:
         success-threshold: 1
         send-on-resolved: true
 
-  - name: "Host Out of Memory Check"
+  - name: "Host Memory Check"
     enabled: true
     group: "hardware"
     url: "http://prometheus.dms.dappnode:9090/api/v1/query?query=100*(1-node_memory_MemAvailable_bytes/node_memory_MemTotal_bytes)"
@@ -51,7 +51,7 @@ endpoints:
         success-threshold: 1
         send-on-resolved: true
 
-  - name: "Host Out of Disk Space Check"
+  - name: "Host Disk Space Check"
     enabled: true
     group: "hardware"
     url: "http://prometheus.dms.dappnode:9090/api/v1/query?query=avg((1-node_filesystem_avail_bytes%7Bfstype!~%22^(fuse.*|tmpfs|cifs|nfs)%22%7D/node_filesystem_size_bytes)*100)"
