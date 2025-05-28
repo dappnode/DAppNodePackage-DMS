@@ -2,7 +2,7 @@ endpoints:
   - name: "High CPU Usage Check"
     enabled: true
     group: "hardware"
-    url: "http://prometheus.dms.dappnode:9090/api/v1/query?query=avg%28node_hwmon_temp_celsius%7Bchip%3D~%22.*coretemp.*%7C.*18_3%24%7C.*k10temp.*%22%7D%29"
+    url: "http://prometheus.dms.dappnode:9090/api/v1/query?query=100%20*%20sum%20by%28instance%29%20%28rate%28node_cpu_seconds_total%7Bmode!%3D%22idle%22%7D%5B2m%5D%29%29%20%2F%20sum%20by%28instance%29%20%28rate%28node_cpu_seconds_total%5B2m%5D%29%29"
     method: "GET"
     interval: "30s"
     conditions:
@@ -80,7 +80,7 @@ endpoints:
   - name: "Host Temperature Check"
     enabled: true
     group: "hardware"
-    url: "http://prometheus.dms.dappnode:9090/api/v1/query?query=avg(node_hwmon_temp_celsius%7Bchip%3D~%22coretemp.*%7Ck10temp.*%7Cpci0000%3A.*%7Cacpitz.*%22%7D)"
+    url: "http://prometheus.dms.dappnode:9090/api/v1/query?query=avg%28node_hwmon_temp_celsius%7Bchip%3D~%22.*coretemp.*%7C.*18_3%24%7C.*k10temp.*%22%7D%29"
     method: "GET"
     interval: "30s"
     conditions:
