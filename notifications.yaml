@@ -1,0 +1,104 @@
+endpoints:
+  - name: "High CPU Usage Check"
+    enabled: true
+    group: "hardware"
+    url: "http://prometheus.dms.dappnode:9090/api/v1/query?query=100%20*%20sum%20by%28instance%29%20%28rate%28node_cpu_seconds_total%7Bmode!%3D%22idle%22%7D%5B2m%5D%29%29%20%2F%20sum%20by%28instance%29%20%28rate%28node_cpu_seconds_total%5B2m%5D%29%29"
+    method: "GET"
+    interval: "30s"
+    conditions:
+      - "[BODY].data.result[0].value[1] <= 80"
+    metric:
+      min: 0
+      max: 100
+      unit: "%"
+    definition:
+      title: "Configure your CPU Usage Alert"
+      description: "Triggers if CPU usage exceeds the limit defined in the condition"
+    priority: "medium"
+    correlationId: "dms-cpu"
+    isBanner: "false"
+    alerts:
+      - type: custom
+        enabled: true
+        description: "CPU % usage above [CONDITION_VALUE]"
+        failure-threshold: 2
+        success-threshold: 1
+        send-on-resolved: true
+
+  - name: "Host Memory Check"
+    enabled: true
+    group: "hardware"
+    url: "http://prometheus.dms.dappnode:9090/api/v1/query?query=100*(1-node_memory_MemAvailable_bytes/node_memory_MemTotal_bytes)"
+    method: "GET"
+    interval: "30s"
+    conditions:
+      - "[BODY].data.result[0].value[1] <= 90"
+    metric:
+      min: 0
+      max: 100
+      unit: "%"
+    definition:
+      title: "Configure your Memory Usage Alert"
+      description: "Triggers if memory usage exceeds the limit defined in the condition"
+    priority: "medium"
+    correlationId: "dms-memory"
+    isBanner: "false"
+    alerts:
+      - type: custom
+        enabled: true
+        description: "Memory % usage above [CONDITION_VALUE]"
+        failure-threshold: 2
+        success-threshold: 1
+        send-on-resolved: true
+
+  - name: "Host Disk Space Check"
+    enabled: true
+    group: "hardware"
+    url: "http://prometheus.dms.dappnode:9090/api/v1/query?query=avg((1-node_filesystem_avail_bytes%7Bfstype!~%22^(fuse.*|tmpfs|cifs|nfs)%22%7D/node_filesystem_size_bytes)*100)"
+    method: "GET"
+    interval: "30s"
+    conditions:
+      - "[BODY].data.result[0].value[1] <= 90"
+    metric:
+      min: 0
+      max: 100
+      unit: "%"
+    definition:
+      title: "Configure your Disk Space Alert"
+      description: "Triggers if disk usage exceeds the limit defined in the condition"
+    priority: "high"
+    correlationId: "dms-disk"
+    isBanner: "false"
+    alerts:
+      - type: custom
+        enabled: true
+        description: "Disk % usage above [CONDITION_VALUE]"
+        failure-threshold: 2
+        success-threshold: 1
+        send-on-resolved: true
+
+  - name: "Host Temperature Check"
+    enabled: true
+    group: "hardware"
+    url: "http://prometheus.dms.dappnode:9090/api/v1/query?query=avg%28node_hwmon_temp_celsius%7Bchip%3D~%22.*coretemp.*%7C.*18_3%24%7C.*k10temp.*%22%7D%29"
+    method: "GET"
+    interval: "30s"
+    conditions:
+      - "[BODY].data.result[0].value[1] <= 85"
+    metric:
+      min: 25
+      max: 100
+      unit: "°C"
+    definition:
+      title: "Configure your Temperature Alert"
+      description: "Triggers if the average node temperature exceeds the defined threshold"
+    priority: "medium"
+    correlationId: "dms-temperature"
+    isBanner: "false"
+    alerts:
+      - type: custom
+        enabled: true
+        description: "Average node temperature above [CONDITION_VALUE]°C"
+        failure-threshold: 2
+        success-threshold: 1
+        send-on-resolved: true
