@@ -4,7 +4,7 @@ services:
     build:
       context: grafana
       args:
-        UPSTREAM_VERSION_GRAFANA: v12.3.1
+        UPSTREAM_VERSION_GRAFANA: 12.3.1
     image: grafana.dms.dnp.dappnode.eth:1.0.1
     restart: always
     volumes:
@@ -55,7 +55,7 @@ services:
     build:
       context: cadvisor
       args:
-        UPSTREAM_VERSION_CADVISOR: v0.55.0
+        UPSTREAM_VERSION_CADVISOR: 0.55.0
     restart: always
     volumes:
       - /:/rootfs:ro
@@ -75,7 +75,7 @@ services:
     build:
       context: loki
       args:
-        UPSTREAM_VERSION_LOKI: v3.6.3
+        UPSTREAM_VERSION_LOKI: 3.6.3
     command: "-config.file=/etc/loki/local-config.yaml"
     restart: always
     image: loki.dms.dnp.dappnode.eth:1.0.1
