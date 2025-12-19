@@ -4,13 +4,17 @@ services:
     build:
       context: grafana
       args:
-        UPSTREAM_VERSION_GRAFANA: 11.1.0
-    image: "grafana.dms.dnp.dappnode.eth:1.0.1"
+        UPSTREAM_VERSION_GRAFANA: 12.3.1
+    image: grafana.dms.dnp.dappnode.eth:1.0.1
     restart: always
     volumes:
-      - "grafana_data:/var/lib/grafana"
+      - grafana_data:/var/lib/grafana
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost/api/health"]
+      test:
+        - CMD
+        - curl
+        - "-f"
+        - http://localhost/api/health
       interval: 20s
       timeout: 10s
       retries: 5
@@ -18,21 +22,21 @@ services:
     build:
       context: prometheus
       args:
-        UPSTREAM_VERSION_PROMETHEUS: v2.52.0
-    image: "prometheus.dms.dnp.dappnode.eth:1.0.1"
+        UPSTREAM_VERSION_PROMETHEUS: v3.8.1
+    image: prometheus.dms.dnp.dappnode.eth:1.0.1
     restart: always
     volumes:
-      - "prometheus_data:/prometheus"
-      - "prometheus_file_sd:/prometheus_file_sd"
+      - prometheus_data:/prometheus
+      - prometheus_file_sd:/prometheus_file_sd
     environment:
       DATA_RETENTION_DAYS: 15
   manager:
     build: ./manager
-    image: "manager.dms.dnp.dappnode.eth:1.0.1"
+    image: manager.dms.dnp.dappnode.eth:1.0.1
     restart: always
     volumes:
-      - "manager_data:/data"
-      - "prometheus_file_sd:/prometheus_file_sd"
+      - manager_data:/data
+      - prometheus_file_sd:/prometheus_file_sd
     depends_on:
       grafana:
         condition: service_healthy
@@ -40,41 +44,41 @@ services:
     build:
       context: node_exporter
       args:
-        UPSTREAM_VERSION_NODE_EXPORTER: v1.9.0
+        UPSTREAM_VERSION_NODE_EXPORTER: v1.10.2
     restart: always
     volumes:
-      - "/:/host:ro,rslave"
+      - /:/host:ro,rslave
     command:
       - "--path.rootfs=/host"
-    image: "node-exporter.dms.dnp.dappnode.eth:1.0.3"
+    image: node-exporter.dms.dnp.dappnode.eth:1.0.3
   cadvisor:
     build:
       context: cadvisor
       args:
-        UPSTREAM_VERSION_CADVISOR: v0.47.1
+        UPSTREAM_VERSION_CADVISOR: 0.55.0
     restart: always
     volumes:
-      - "/:/rootfs:ro"
-      - "/var/run:/var/run:rw"
-      - "/sys:/sys:ro"
-      - "/var/lib/docker/:/var/lib/docker:ro"
-    image: "cadvisor.dms.dnp.dappnode.eth:1.0.3"
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    image: cadvisor.dms.dnp.dappnode.eth:1.0.3
   stakers-metrics:
     build:
       context: stakers-metrics
       dockerfile: Dockerfile
     restart: always
-    image: "stakers-metrics.dms.dnp.dappnode.eth:1.0.3"
+    image: stakers-metrics.dms.dnp.dappnode.eth:1.0.3
     environment:
       - DEBUG_MODE=false
   loki:
     build:
       context: loki
       args:
-        UPSTREAM_VERSION_LOKI: 3.1.1
+        UPSTREAM_VERSION_LOKI: 3.6.3
     command: "-config.file=/etc/loki/local-config.yaml"
     restart: always
-    image: "loki.dms.dnp.dappnode.eth:1.0.1"
+    image: loki.dms.dnp.dappnode.eth:1.0.1
 volumes:
   grafana_data: {}
   prometheus_data: {}
