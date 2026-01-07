@@ -12,22 +12,22 @@
     },
     {
       "repo": "google/cadvisor",
-      "version": "0.55.0",
+      "version": "v0.55.1",
       "arg": "UPSTREAM_VERSION_CADVISOR"
     },
     {
       "repo": "prometheus/prometheus",
-      "version": "v3.8.1",
+      "version": "v3.9.1",
       "arg": "UPSTREAM_VERSION_PROMETHEUS"
     },
     {
       "repo": "grafana/grafana",
-      "version": "12.3.1",
+      "version": "v12.3.1",
       "arg": "UPSTREAM_VERSION_GRAFANA"
     },
     {
       "repo": "grafana/loki",
-      "version": "3.6.3",
+      "version": "v3.6.3",
       "arg": "UPSTREAM_VERSION_LOKI"
     }
   ],
