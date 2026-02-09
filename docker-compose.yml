@@ -79,8 +79,33 @@ services:
     command: "-config.file=/etc/loki/local-config.yaml"
     restart: always
     image: loki.dms.dnp.dappnode.eth:1.0.1
+  alloy:
+    build:
+      context: alloy
+      args:
+        UPSTREAM_VERSION_ALLOY: v1.12.1
+    image: alloy.dms.dnp.dappnode.eth:1.0.0
+    restart: always
+    command:
+      - run
+      - --server.http.listen-addr=0.0.0.0:3000
+      - --storage.path=/var/lib/alloy/data
+      - /etc/alloy/config.alloy
+    volumes:
+      - alloy_data:/var/lib/alloy/data
+  tempo:
+    build:
+      context: tempo
+    image: tempo.dms.dnp.dappnode.eth:1.0.0
+    restart: always
+    command:
+      - "-config.file=/etc/tempo/config.yaml"
+    volumes:
+      - tempo_data:/var/tempo
 volumes:
   grafana_data: {}
   prometheus_data: {}
   manager_data: {}
   prometheus_file_sd: {}
+  alloy_data: {}
+  tempo_data: {}

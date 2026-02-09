@@ -1,20 +1,26 @@
 [
-    {
-      "labels": {
-        "job": "nodeexporter"
-      },
-      "targets": ["node-exporter.dms.dappnode:9100"]
+  {
+    "labels": {
+      "job": "nodeexporter"
     },
-    {
-      "labels": {
-        "job": "cadvisor"
-      },
-      "targets": ["cadvisor.dms.dappnode:8080"]
+    "targets": ["node-exporter.dms.dappnode:9100"]
+  },
+  {
+    "labels": {
+      "job": "cadvisor"
     },
-    {
-      "labels": {
-        "job": "stakersmetrics"
-      },
-      "targets": ["stakers-metrics.dms.dappnode:9090"]
-    }
-  ]
+    "targets": ["cadvisor.dms.dappnode:8080"]
+  },
+  {
+    "labels": {
+      "job": "stakersmetrics"
+    },
+    "targets": ["stakers-metrics.dms.dappnode:9090"]
+  },
+  {
+    "labels": {
+      "job": "alloy"
+    },
+    "targets": ["alloy.dms.dappnode:3000"]
+  }
+]
