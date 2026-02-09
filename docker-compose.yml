@@ -96,6 +96,8 @@ services:
   tempo:
     build:
       context: tempo
+      args:
+        UPSTREAM_VERSION_TEMPO: 2.7.1
     image: tempo.dms.dnp.dappnode.eth:1.0.0
     restart: always
     command:
