@@ -1,6 +1,6 @@
 {
   "name": "dms.dnp.dappnode.eth",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "This package privately and locally collects and displays metrics related to your dappnode and its packages. Based on Grafana and Prometheus.",
   "shortDescription": "DAppNode Monitoring Service",
   "type": "service",
@@ -12,22 +12,22 @@
     },
     {
       "repo": "google/cadvisor",
-      "version": "0.55.0",
+      "version": "v0.56.2",
       "arg": "UPSTREAM_VERSION_CADVISOR"
     },
     {
       "repo": "prometheus/prometheus",
-      "version": "v3.8.1",
+      "version": "v3.10.0",
       "arg": "UPSTREAM_VERSION_PROMETHEUS"
     },
     {
       "repo": "grafana/grafana",
-      "version": "12.3.1",
+      "version": "v12.4.1",
       "arg": "UPSTREAM_VERSION_GRAFANA"
     },
     {
       "repo": "grafana/loki",
-      "version": "3.6.3",
+      "version": "v3.6.7",
       "arg": "UPSTREAM_VERSION_LOKI"
     }
   ],
