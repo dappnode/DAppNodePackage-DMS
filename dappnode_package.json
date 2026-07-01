@@ -1,64 +1,71 @@
 {
-  "name": "dms.dnp.dappnode.eth",
-  "version": "2.0.3",
-  "description": "This package privately and locally collects and displays metrics related to your dappnode and its packages. Based on Grafana and Prometheus.",
-  "shortDescription": "DAppNode Monitoring Service",
-  "type": "service",
-  "upstream": [
-    {
-      "repo": "prometheus/node_exporter",
-      "version": "v1.10.2",
-      "arg": "UPSTREAM_VERSION_NODE_EXPORTER"
-    },
-    {
-      "repo": "google/cadvisor",
-      "version": "0.55.0",
-      "arg": "UPSTREAM_VERSION_CADVISOR"
-    },
-    {
-      "repo": "prometheus/prometheus",
-      "version": "v3.8.1",
-      "arg": "UPSTREAM_VERSION_PROMETHEUS"
-    },
-    {
-      "repo": "grafana/grafana",
-      "version": "12.3.1",
-      "arg": "UPSTREAM_VERSION_GRAFANA"
-    },
-    {
-      "repo": "grafana/loki",
-      "version": "3.6.3",
-      "arg": "UPSTREAM_VERSION_LOKI"
-    }
+  "architectures": [
+    "linux/amd64",
+    "linux/arm64"
   ],
-  "architectures": ["linux/amd64", "linux/arm64"],
-  "mainService": "grafana",
   "author": "DAppNode Association <admin@dappnode.io> (https://github.com/dappnode)",
+  "bugs": {
+    "url": "https://github.com/dappnode/DMS/issues"
+  },
+  "categories": [
+    "Monitoring"
+  ],
   "contributors": [
     "DAppLion <dapplion@giveth.io> (https://github.com/dapplion)"
   ],
-  "requirements": {
-    "minimumDappnodeVersion": "0.2.106",
-    "notInstalledPackages": ["dappnode-exporter.dnp.dappnode.eth"]
-  },
-  "categories": ["Monitoring"],
-  "style": {
-    "featuredBackground": "linear-gradient(67deg, #000000, #123939)",
-    "featuredColor": "white"
-  },
+  "description": "This package privately and locally collects and displays metrics related to your dappnode and its packages. Based on Grafana and Prometheus.",
+  "license": "GPL-3.0",
   "links": {
-    "ui": "http://dms.dappnode/dashboards",
     "grafana": "http://dms.dappnode",
-    "prometheus-targets": "http://prometheus.dms.dappnode:9090/",
+    "homepage": "https://github.com/dappnode/DMS#readme",
     "manager-status": "http://manager.dms.dappnode",
-    "homepage": "https://github.com/dappnode/DMS#readme"
+    "prometheus-targets": "http://prometheus.dms.dappnode:9090/",
+    "ui": "http://dms.dappnode/dashboards"
   },
+  "mainService": "grafana",
+  "name": "dms.dnp.dappnode.eth",
   "repository": {
     "type": "git",
     "url": "https://github.com/dappnode/DMS"
   },
-  "bugs": {
-    "url": "https://github.com/dappnode/DMS/issues"
+  "requirements": {
+    "minimumDappnodeVersion": "0.2.106",
+    "notInstalledPackages": [
+      "dappnode-exporter.dnp.dappnode.eth"
+    ]
   },
-  "license": "GPL-3.0"
+  "shortDescription": "DAppNode Monitoring Service",
+  "style": {
+    "featuredBackground": "linear-gradient(67deg, #000000, #123939)",
+    "featuredColor": "white"
+  },
+  "type": "service",
+  "upstream": [
+    {
+      "arg": "UPSTREAM_VERSION_NODE_EXPORTER",
+      "repo": "prometheus/node_exporter",
+      "version": "v1.10.2"
+    },
+    {
+      "arg": "UPSTREAM_VERSION_CADVISOR",
+      "repo": "google/cadvisor",
+      "version": "0.55.0"
+    },
+    {
+      "arg": "UPSTREAM_VERSION_PROMETHEUS",
+      "repo": "prometheus/prometheus",
+      "version": "v3.8.1"
+    },
+    {
+      "arg": "UPSTREAM_VERSION_GRAFANA",
+      "repo": "grafana/grafana",
+      "version": "13.1.0"
+    },
+    {
+      "arg": "UPSTREAM_VERSION_LOKI",
+      "repo": "grafana/loki",
+      "version": "3.6.3"
+    }
+  ],
+  "version": "2.0.4"
 }
