@@ -1,6 +1,41 @@
-import { Network, executionClients, consensusClients } from "@dappnode/types";
 import axios, { AxiosError } from "axios";
-import logger from "./logger.js"; 
+import logger from "./logger.js";
+
+export const networks = ["mainnet", "gnosis", "lukso", "hoodi"] as const;
+export type Network = (typeof networks)[number];
+
+export const executionClients = [
+  "geth.dnp.dappnode.eth",
+  "besu.public.dappnode.eth",
+  "erigon.dnp.dappnode.eth",
+  "nethermind.public.dappnode.eth",
+  "nethermind-xdai.dnp.dappnode.eth",
+  "gnosis-erigon.dnp.dappnode.eth",
+  "lukso-geth.dnp.dappnode.eth",
+  "hoodi-geth.dnp.dappnode.eth",
+  "hoodi-erigon.dnp.dappnode.eth",
+  "hoodi-nethermind.dnp.dappnode.eth",
+  "hoodi-besu.dnp.dappnode.eth",
+] as const;
+
+export const consensusClients = [
+  "lodestar.dnp.dappnode.eth",
+  "prysm.dnp.dappnode.eth",
+  "lighthouse.dnp.dappnode.eth",
+  "teku.dnp.dappnode.eth",
+  "nimbus.dnp.dappnode.eth",
+  "lighthouse-gnosis.dnp.dappnode.eth",
+  "teku-gnosis.dnp.dappnode.eth",
+  "lodestar-gnosis.dnp.dappnode.eth",
+  "nimbus-gnosis.dnp.dappnode.eth",
+  "prysm-lukso.dnp.dappnode.eth",
+  "teku-lukso.dnp.dappnode.eth",
+  "prysm-hoodi.dnp.dappnode.eth",
+  "lighthouse-hoodi.dnp.dappnode.eth",
+  "teku-hoodi.dnp.dappnode.eth",
+  "nimbus-hoodi.dnp.dappnode.eth",
+  "lodestar-hoodi.dnp.dappnode.eth",
+] as const;
 
 /**
  * Gets the client URL for a given network and type (execution or consensus).
@@ -29,7 +64,6 @@ function isValidDnpName(dnpName: string): boolean {
 
 /**
  * Returns the JSON-RPC API URL for a given DNP name.
- * Re-implemented from @dappnode/types removed in 0.1.39.
  */
 function getJsonRpcApiFromDnpName(dnpName: string): string {
   if (!isValidDnpName(dnpName)) throw new Error("Invalid DNP name format.");
@@ -38,10 +72,10 @@ function getJsonRpcApiFromDnpName(dnpName: string): string {
   let host: string;
   let port: string;
 
-  if ((executionClients as readonly string[]).includes(dnpName)) {
+  if (executionClients.includes(dnpName as typeof executionClients[number])) {
     host = pkgName;
     port = "8545";
-  } else if ((consensusClients as readonly string[]).includes(dnpName)) {
+  } else if (consensusClients.includes(dnpName as typeof consensusClients[number])) {
     if (pkgName.startsWith("nimbus")) {
       host = `beacon-validator.${pkgName}`;
       port = "4500";

@@ -28,11 +28,6 @@
     enabled "2.0.x"
     kuler "^2.0.0"
 
-"@dappnode/types@0.1.39":
-  version "0.1.39"
-  resolved "https://registry.yarnpkg.com/@dappnode/types/-/types-0.1.39.tgz#f82591dc3403d7c2049a078d43515771e7627939"
-  integrity sha512-HekCz9O24km0FfAr3yzIq9j8TqCshY3+UD3+ee0SKwj/Iq5QYV0I4gH4EL2U8w7Mwgu2T8tJUzmTbG1c05giEw==
-
 "@eslint-community/eslint-utils@^4.8.0", "@eslint-community/eslint-utils@^4.9.1":
   version "4.9.1"
   resolved "https://registry.yarnpkg.com/@eslint-community/eslint-utils/-/eslint-utils-4.9.1.tgz#4e90af67bc51ddee6cdef5284edf572ec376b595"

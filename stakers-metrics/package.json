@@ -24,7 +24,6 @@
     "@typescript-eslint/parser": "8.63.0"
   },
   "dependencies": {
-    "@dappnode/types": "0.1.39", 
     "@types/node": "^26.1.0",
     "@types/express": "^5.0.6",
     "axios": "^1.18.1",
