@@ -5,4 +5,5 @@ manager/node_modules/
 manager/dist/
 
 stakers-metrics/node_modules/
-stakers-metrics/dist/docker-compose-tmp.yml
+stakers-metrics/dist/
+docker-compose-tmp.yml
