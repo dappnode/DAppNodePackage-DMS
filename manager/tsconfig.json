@@ -5,7 +5,7 @@
     "target": "ESNext",
     "sourceMap": true /* Generates corresponding '.map' file. */,
     "outDir": "dist" /* Redirect output structure to the directory. */,
-    "downlevelIteration": true /* Provide full support for iterables in 'for-of', spread, and destructuring when targeting 'ES5' or 'ES3'. */,
+    "rootDir": "./src",
 
     /* Strict Type-Checking Options */
     "strict": true /* Enable all strict type-checking options. */,
@@ -24,8 +24,9 @@
     "noFallthroughCasesInSwitch": true /* Report errors for fallthrough cases in switch statement. */,
 
     /* Module Resolution Options */
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "esModuleInterop": true,
+    "types": ["node"],
     "useUnknownInCatchVariables": false
   },
   "include": ["./src/**/*.ts"]

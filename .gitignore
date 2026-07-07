@@ -4,5 +4,5 @@ build_*
 manager/node_modules/
 manager/dist/
 
-staker-metrics/node_modules/
-staker-metrics/dist/
+stakers-metrics/node_modules/
+stakers-metrics/dist/docker-compose-tmp.yml

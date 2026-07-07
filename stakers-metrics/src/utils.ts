@@ -1,4 +1,4 @@
-import { getJsonRpcApiFromDnpName, Network} from "@dappnode/types";
+import { Network, executionClients, consensusClients } from "@dappnode/types";
 import axios, { AxiosError } from "axios";
 import logger from "./logger.js"; 
 
@@ -20,6 +20,40 @@ export function getClientUrl(network: Network, clientType: "execution" | "consen
     logger.error(`Error getting client URL from the dnp ${envKey} with value ${envValue}: ${error}`);
     return undefined;
   }
+}
+
+/** Validates DAppNode package name format */
+function isValidDnpName(dnpName: string): boolean {
+  return /^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.(dnp|public)\.dappnode\.eth$/i.test(dnpName);
+}
+
+/**
+ * Returns the JSON-RPC API URL for a given DNP name.
+ * Re-implemented from @dappnode/types removed in 0.1.39.
+ */
+function getJsonRpcApiFromDnpName(dnpName: string): string {
+  if (!isValidDnpName(dnpName)) throw new Error("Invalid DNP name format.");
+
+  const [pkgName, tld] = dnpName.split(".");
+  let host: string;
+  let port: string;
+
+  if ((executionClients as readonly string[]).includes(dnpName)) {
+    host = pkgName;
+    port = "8545";
+  } else if ((consensusClients as readonly string[]).includes(dnpName)) {
+    if (pkgName.startsWith("nimbus")) {
+      host = `beacon-validator.${pkgName}`;
+      port = "4500";
+    } else {
+      host = `beacon-chain.${pkgName}`;
+      port = "3500";
+    }
+  } else {
+    throw new Error(`The DNP ${dnpName} does not correspond to an execution or consensus client.`);
+  }
+
+  return `http://${host}.${tld === "dnp" ? "dappnode" : "public.dappnode"}:${port}`;
 }
 
 
