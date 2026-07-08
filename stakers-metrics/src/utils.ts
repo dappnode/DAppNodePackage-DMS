@@ -1,7 +1,7 @@
 import axios, { AxiosError } from "axios";
 import logger from "./logger.js";
 
-export const networks = ["mainnet", "gnosis", "lukso", "hoodi"] as const;
+export const networks = ["mainnet", "gnosis", "lukso", "hoodi", "sepolia"] as const;
 export type Network = (typeof networks)[number];
 
 export const executionClients = [
@@ -16,6 +16,8 @@ export const executionClients = [
   "hoodi-erigon.dnp.dappnode.eth",
   "hoodi-nethermind.dnp.dappnode.eth",
   "hoodi-besu.dnp.dappnode.eth",
+  "sepolia-geth.dnp.dappnode.eth",
+  "sepolia-reth.dnp.dappnode.eth",
 ] as const;
 
 export const consensusClients = [
@@ -35,6 +37,8 @@ export const consensusClients = [
   "teku-hoodi.dnp.dappnode.eth",
   "nimbus-hoodi.dnp.dappnode.eth",
   "lodestar-hoodi.dnp.dappnode.eth",
+  "prysm-sepolia.dnp.dappnode.eth",
+  "lighthouse-sepolia.dnp.dappnode.eth",
 ] as const;
 
 /**
