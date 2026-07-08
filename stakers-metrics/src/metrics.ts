@@ -1,4 +1,4 @@
-import { networks } from "@dappnode/types";
+import { networks } from "./utils.js";
 import promClient from "prom-client";
 import { getClientUrl, jsonRPCapiCallExecution, jsonRPCapiCallConsensus, consensusSyncingParser, executionSyncingParser, executionPeerParser, consensusPeerParser } from "./utils.js";
 import logger from "./logger.js"; 

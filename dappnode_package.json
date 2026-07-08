@@ -7,28 +7,45 @@
   "upstream": [
     {
       "repo": "prometheus/node_exporter",
-      "version": "v1.10.2",
+      "version": "v1.11.1",
       "arg": "UPSTREAM_VERSION_NODE_EXPORTER"
     },
     {
       "repo": "google/cadvisor",
-      "version": "0.55.0",
+      "version": "v0.60.3",
       "arg": "UPSTREAM_VERSION_CADVISOR"
     },
     {
       "repo": "prometheus/prometheus",
-      "version": "v3.8.1",
+      "version": "v3.13.0",
       "arg": "UPSTREAM_VERSION_PROMETHEUS"
     },
     {
       "repo": "grafana/grafana",
-      "version": "12.3.1",
+      "version": "13.1.0",
       "arg": "UPSTREAM_VERSION_GRAFANA"
     },
     {
       "repo": "grafana/loki",
-      "version": "3.6.3",
+      "version": "3.7.3",
       "arg": "UPSTREAM_VERSION_LOKI"
+    }
+  ],
+  "globalEnvs": [
+    {
+      "envs": [
+        "EXECUTION_CLIENT_MAINNET",
+        "CONSENSUS_CLIENT_MAINNET",
+        "EXECUTION_CLIENT_GNOSIS",
+        "CONSENSUS_CLIENT_GNOSIS",
+        "EXECUTION_CLIENT_LUKSO",
+        "CONSENSUS_CLIENT_LUKSO",
+        "EXECUTION_CLIENT_HOODI",
+        "CONSENSUS_CLIENT_HOODI",
+        "EXECUTION_CLIENT_SEPOLIA",
+        "CONSENSUS_CLIENT_SEPOLIA"
+      ],
+      "services": ["stakers-metrics"]
     }
   ],
   "architectures": ["linux/amd64", "linux/arm64"],

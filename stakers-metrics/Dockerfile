@@ -1,8 +1,10 @@
 # Stage 1: Build stage
-FROM node:18-alpine as builder
+FROM node:24-alpine3.24 as builder
 
 # Set the working directory inside the container
 WORKDIR /app
+
+RUN apk add --no-cache yarn
 
 # Copy package.json, tsconfig.json and yarn.lock (if present) to the container
 COPY package.json yarn.lock* tsconfig.json ./
@@ -17,10 +19,12 @@ COPY ./src ./src
 RUN yarn build
 
 # Stage 2: Production stage
-FROM node:18-alpine
+FROM node:24-alpine3.24
 
 # Set the working directory inside the container
 WORKDIR /app
+
+RUN apk add --no-cache yarn
 
 # Copy only the necessary files from the builder stage
 COPY --from=builder /app/dist ./dist
