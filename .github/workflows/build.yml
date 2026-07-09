@@ -3,6 +3,8 @@ name: Build
 on:
   workflow_dispatch:
   push:
+    branches-ignore:
+      - "master"
     paths-ignore: ["README.md"]
 
 jobs:
