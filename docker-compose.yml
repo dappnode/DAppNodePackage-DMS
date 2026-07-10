@@ -22,7 +22,7 @@ services:
     build:
       context: prometheus
       args:
-        UPSTREAM_VERSION_PROMETHEUS: v3.8.1
+        UPSTREAM_VERSION_PROMETHEUS: v3.13.1
     image: prometheus.dms.dnp.dappnode.eth:1.0.1
     restart: always
     volumes:
