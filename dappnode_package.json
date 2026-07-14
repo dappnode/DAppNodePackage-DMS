@@ -68,12 +68,12 @@
     {
       "arg": "UPSTREAM_VERSION_CADVISOR",
       "repo": "google/cadvisor",
-      "version": "v0.60.5"
+      "version": "v0.60.3"
     },
     {
       "arg": "UPSTREAM_VERSION_PROMETHEUS",
       "repo": "prometheus/prometheus",
-      "version": "v3.13.0"
+      "version": "v3.13.1"
     },
     {
       "arg": "UPSTREAM_VERSION_GRAFANA",
