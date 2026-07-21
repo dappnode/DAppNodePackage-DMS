@@ -78,7 +78,7 @@
     {
       "arg": "UPSTREAM_VERSION_GRAFANA",
       "repo": "grafana/grafana",
-      "version": "13.1.0"
+      "version": "13.1.1"
     },
     {
       "arg": "UPSTREAM_VERSION_LOKI",
