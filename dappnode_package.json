@@ -83,7 +83,7 @@
     {
       "arg": "UPSTREAM_VERSION_LOKI",
       "repo": "grafana/loki",
-      "version": "3.7.3"
+      "version": "3.7.4"
     }
   ],
   "version": "2.0.4"
