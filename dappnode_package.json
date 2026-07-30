@@ -73,7 +73,7 @@
     {
       "arg": "UPSTREAM_VERSION_PROMETHEUS",
       "repo": "prometheus/prometheus",
-      "version": "v3.13.1"
+      "version": "v3.13.2"
     },
     {
       "arg": "UPSTREAM_VERSION_GRAFANA",
