@@ -1,0 +1,84 @@
+logging {
+  level  = "info"
+  format = "logfmt"
+}
+
+// Prometheus remote write for metrics
+prometheus.remote_write "metrics_write" {
+  endpoint {
+    name = "default"
+    url  = "http://prometheus.dms.dappnode:9090/api/v1/write"
+
+    queue_config { }
+    metadata_config { }
+  }
+}
+
+// Loki log processing pipeline
+loki.process "logs_process_client" {
+  forward_to = [loki.write.logs_write_client.receiver]
+
+  stage.logfmt {
+    mapping = { "kind" = "", "service_name" = "", "app" = "" }
+  }
+
+  stage.labels {
+    values = { "kind" = "kind", "service_name" = "service_name", "app" = "app" }
+  }
+}
+
+// Loki write endpoint
+loki.write "logs_write_client" {
+  endpoint {
+    url = "http://loki.dms.dappnode:3100/loki/api/v1/push"
+  }
+}
+
+// Faro receiver for frontend telemetry collection
+faro.receiver "integrations_app_agent_receiver" {
+  server {
+    listen_address           = "0.0.0.0"
+    listen_port              = 12345
+    cors_allowed_origins     = ["*"]
+    max_allowed_payload_size = "10MiB"
+
+    rate_limiting {
+      rate = 100
+    }
+  }
+
+  sourcemaps { }
+
+  output {
+    logs   = [loki.process.logs_process_client.receiver]
+    traces = [otelcol.exporter.otlp.trace_write.input]
+  }
+}
+
+// OpenTelemetry OTLP receiver for traces
+otelcol.receiver.otlp "default" {
+  grpc {
+    endpoint         = "0.0.0.0:4317"
+    include_metadata = true
+  }
+
+  http {
+    endpoint = "0.0.0.0:4318"
+  }
+
+  output {
+    metrics = []
+    logs    = []
+    traces  = [otelcol.exporter.otlp.trace_write.input]
+  }
+}
+
+// OpenTelemetry exporter to Tempo
+otelcol.exporter.otlp "trace_write" {
+  client {
+    endpoint = "tempo.dms.dappnode:4317"
+    tls {
+      insecure = true
+    }
+  }
+}
