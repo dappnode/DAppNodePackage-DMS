@@ -45,7 +45,7 @@
   "name": "dms.dnp.dappnode.eth",
   "repository": {
     "type": "git",
-    "url": "https://github.com/dappnode/DMS"
+    "url": "https://github.com/dappnode/DAppNodePackage-DMS.git"
   },
   "requirements": {
     "minimumDappnodeVersion": "0.2.106",
