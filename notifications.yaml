@@ -16,7 +16,7 @@ endpoints:
       description: "Triggers if CPU usage exceeds the limit defined in the condition"
     priority: "medium"
     correlationId: "dms-cpu"
-    isBanner: "false"
+    isBanner: false
     alerts:
       - type: custom
         enabled: true
@@ -42,7 +42,7 @@ endpoints:
       description: "Triggers if memory usage exceeds the limit defined in the condition"
     priority: "medium"
     correlationId: "dms-memory"
-    isBanner: "false"
+    isBanner: false
     alerts:
       - type: custom
         enabled: true
@@ -68,7 +68,7 @@ endpoints:
       description: "Triggers if disk usage exceeds the limit defined in the condition"
     priority: "high"
     correlationId: "dms-disk"
-    isBanner: "false"
+    isBanner: false
     alerts:
       - type: custom
         enabled: true
@@ -94,7 +94,7 @@ endpoints:
       description: "Triggers if the average node temperature exceeds the defined threshold"
     priority: "medium"
     correlationId: "dms-temperature"
-    isBanner: "false"
+    isBanner: false
     alerts:
       - type: custom
         enabled: true
