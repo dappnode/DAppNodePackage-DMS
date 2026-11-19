@@ -44,7 +44,7 @@ services:
     build:
       context: node_exporter
       args:
-        UPSTREAM_VERSION_NODE_EXPORTER: v1.12.1
+        UPSTREAM_VERSION_NODE_EXPORTER: v1.13.1
     restart: always
     volumes:
       - /:/host:ro,rslave
