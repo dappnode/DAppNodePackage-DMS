@@ -4,6 +4,13 @@
     "linux/arm64"
   ],
   "author": "DAppNode Association <admin@dappnode.io> (https://github.com/dappnode)",
+  "backup": [
+    {
+      "name": "grafana-db",
+      "path": "/var/lib/grafana/grafana.db",
+      "service": "grafana"
+    }
+  ],
   "bugs": {
     "url": "https://github.com/dappnode/DMS/issues"
   },
